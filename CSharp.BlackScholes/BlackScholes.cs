@@ -1,8 +1,11 @@
 ﻿// Copyright 2010 -- TidePowerd, Ltd. All rights reserved.
 // http://www.tidepowerd.com
 //
-// GPU.NET Black-Scholes Demo Application
-// Modified: 6-Aug-2010
+// GPU.NET Black-Scholes (Console-Based) Example (CSharp.BlackScholes)
+// Modified: 01-Dec-2010
+//
+// More examples available at: http://github.com/tidepowerd/GPU.NET-Example-Projects
+//
 
 using System;
 using TidePowerd.DeviceMethods;
