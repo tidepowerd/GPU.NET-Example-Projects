@@ -32,7 +32,7 @@ namespace TidePowerd.Demo.CSharp.BlackScholes
         /// <remarks>
         /// All of the parameter arrays should have the same length.
         /// </remarks>
-        [KernelMethod(AllowFloatingPointDemotion = true)]
+        [Kernel(AllowFloatingPointDemotion = true)]
         public static void BlackScholesGPU(float[] callResult, float[] putResult, float[] stockPrice, float[] optionStrike, float[] optionYears, float riskFree, float volatility)
         {
             // Declare constants
