@@ -1,33 +1,33 @@
 ﻿// Copyright 2010 -- TidePowerd, Ltd. All rights reserved.
 // http://www.tidepowerd.com
 //
-// GPU.NET Black-Scholes (Console-Based) Example (CSharp.BlackScholes)
-// Modified: 01-Dec-2010
-//
-// More examples available at: http://github.com/tidepowerd/GPU.NET-Example-Projects
-//
+// GPU.NET Black-Scholes Demo Application
+// Modified: 12-Dec-2010
 
 using System;
 using System.Diagnostics;
 
 using TidePowerd.DeviceMethods;
 
-namespace TidePowerd.Demo.CSharp.BlackScholes
+namespace TidePowerd.Example.CSharp.BlackScholes
 {
     class Program
     {
+        #region Constants
+
+        // Set the number of options and iterations
+        private const int NumOptions = 4000000;
+        private const int NumGPUIterations = 40;
+        private const int NumCPUIterations = 1;
+
+        // Set some simulation parameters
+        private const float RiskFree = 0.02f;
+        private const float Volatility = 0.30f;
+
+        #endregion
 
         static void Main(string[] args)
         {
-            // Set the number of options and iterations
-            const int NumOptions = 4000000;
-            const int NumGPUIterations = 40;
-            const int NumCPUIterations = 1;
-
-            // Set some simulation parameters
-            const float RiskFree = 0.02f;
-            const float Volatility = 0.30f;
-
             // Allocate arrays to hold option data and pricing results
             float[] StockPrices = new float[NumOptions];
             float[] OptionStrikePrices = new float[NumOptions];
@@ -62,10 +62,6 @@ namespace TidePowerd.Demo.CSharp.BlackScholes
             float[] OptionYearsGPU = new float[NumOptions];
             Array.Copy(OptionYears, OptionYearsGPU, NumOptions);
 
-            // Set grid/block size for GPU execution
-            Launcher.SetGridSize(480);
-            Launcher.SetBlockSize(128);
-
             // Begin thread and processor affinity so we don't jump to a different core and skew our timing results
             System.Threading.Thread.BeginThreadAffinity();
             // TODO: Set processor affinity mask
@@ -77,10 +73,11 @@ namespace TidePowerd.Demo.CSharp.BlackScholes
             Stopwatch Watch = Stopwatch.StartNew();
 
             // Execute the kernel "NumIterations" times
-            for (int Iteration = 0; Iteration < NumGPUIterations; Iteration++)
-            {
-                BlackScholes.BlackScholesGPU(CallResultsGPU, PutResultsGPU, StockPricesGPU, OptionStrikePricesGPU, OptionYearsGPU, RiskFree, Volatility);
-            }
+            // (Beta 3):    Note that the call to the kernel method is now "wrapped" by another method which performs the iteration;
+            //              As of Beta 3, kernel methods must be decorated with the "private" access-modifier -- meaning they can only be
+            //              called by host-based methods in the same class (usually decorated with either the "public" or "internal" access-modifier).
+            //              In this case, we've moved the loop into a new host-based method in the BlackScholes class.
+            BlackScholes.BlackScholesGPUIterative(CallResultsGPU, PutResultsGPU, StockPricesGPU, OptionStrikePricesGPU, OptionYearsGPU, RiskFree, Volatility, NumGPUIterations);
 
             // Stop the stopwatch and print GPU timing results
             Watch.Stop();
