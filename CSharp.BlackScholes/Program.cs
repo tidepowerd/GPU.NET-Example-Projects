@@ -1,8 +1,11 @@
-﻿// Copyright 2010 -- TidePowerd, Ltd. All rights reserved.
+﻿// Copyright 2010-2011 -- TidePowerd, Ltd. All rights reserved.
 // http://www.tidepowerd.com
 //
-// GPU.NET Black-Scholes Demo Application
-// Modified: 12-Dec-2010
+// GPU.NET Black-Scholes Option Pricing Example (CSharp.BlackScholes)
+// Modified: 17-Jan-2011
+//
+// More examples available at: http://github.com/tidepowerd/GPU.NET-Example-Projects
+//
 
 using System;
 using System.Diagnostics;

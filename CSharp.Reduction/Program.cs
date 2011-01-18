@@ -1,8 +1,8 @@
-﻿// Copyright 2010 -- TidePowerd, Ltd. All rights reserved.
+﻿// Copyright 2010-2011 -- TidePowerd, Ltd. All rights reserved.
 // http://www.tidepowerd.com
 //
 // GPU.NET Reduction Example (CSharp.Reduction)
-// Modified: 01-Dec-2010
+// Modified: 17-Jan-2011
 //
 // More examples available at: http://github.com/tidepowerd/GPU.NET-Example-Projects
 //
@@ -22,30 +22,12 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
         /// <remarks>
         /// This number must currently be a power-of-two size.
         /// </remarks>
-        // NOTE: This value cannot be greater than 1 << 23 unless you write the example to use a 2-dimensional grid
-        internal const int NumElements = 1 << 23;   // Must be power-of-two sizes
-
-        /// <summary>
-        /// The number of threads per thread-block.
-        /// </summary>
-        internal const int MaxThreadsPerBlock = 256;
-
-        /// <summary>
-        /// The maximum number of block which we'll allow to be used.
-        /// </summary>
-        internal const int MaxBlocks = 64;
-
-        /// <summary>
-        /// The threshold number of elements at which (or below) we finish the reduction on the CPU.
-        /// </summary>
-        private const int CpuThreshold = 1;
+        private const int NumElements = 1 << 23;// 1 << 24;        // 1 << 22 = 4194304 // 1 << 24 = 16777216   // Must be power-of-two sizes
 
         static void Main(string[] args)
         {
             // Create input and output data arrays
             int[] InputData = new int[NumElements];
-            int[] ClonedInputData = null;   // We'll re-initalize this for each reduction and copy the input data into it (since it's overwritten during each reduction)
-            int[] OutputData = null;    // This will be initialized (to the correct size) by each reduction
 
             // Print 'header'
             Console.Out.WriteLine("Performing shared-memory reduction tests...");
@@ -65,7 +47,7 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
 
             // Create the stopwatch we'll use to time how long each reduction takes
             Stopwatch Watch = new Stopwatch();
-            
+
             // Compute the reduction value on the CPU first so that we can compare it to the GPU-based results
             // TODO: Perform the reduction 2 or 3 times here to get an accurate timing result
             // TODO: Create a version of this project which uses PLINQ / TPL for comparison
@@ -79,50 +61,19 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
             Console.Out.WriteLine("----------------------------------------------------------------------");
             Watch.Reset();
 
-            // Declare variables to hold the current number of threads per block and number of blocks; re-used throughout the code below
-            int NumThreadsPerBlock = 0, NumBlocks = 0;
-
-            // NOTE: reduce0 currently fails due to a compiler bug
             #region reduce0 (Interleaved access with modulo operator)
-
-            // Clone the input data since we overwrite whatever data is used as input for the reduction
-            ClonedInputData = new int[NumElements];
-            Array.Copy(InputData, ClonedInputData, NumElements);
-
-            // Calculate the block and grid sizes needed for the first "level" of the reduction
-            CalculateBlockAndGridSizes(0, NumElements, out NumThreadsPerBlock, out NumBlocks);
-            Launcher.SetBlockSize(NumThreadsPerBlock);
-            Launcher.SetGridSize(NumBlocks);
 
             // Start the reduction (and the timer)
             Console.Out.WriteLine("Testing reduce0 (Interleaved access with modulo operator)...");
             Watch.Start();
 
-            // Perform the first "level" of the reduction
-            OutputData = new int[NumBlocks];
-            Reduction.InterleavedModulo(ClonedInputData, OutputData);
+            // Call the reduction method, which will iterate the reduction kernel until the entire array is reduced
+            int InterleavedModuloResult = Reduction.InterleavedModulo(InputData);
 
-            // If necessary, perform additional "levels" of reduction until we have only a single element (the result)
-            while (NumBlocks > CpuThreshold)
-            {
-                // Calculate the number of threads and blocks based on the current input size
-                CalculateBlockAndGridSizes(0, NumBlocks, out NumThreadsPerBlock, out NumBlocks);
-                Launcher.SetBlockSize(NumThreadsPerBlock);
-                Launcher.SetGridSize(NumBlocks);
-
-                // Replace the current "level's" input data with the output data from the previous "level"
-                ClonedInputData = OutputData;
-
-                // Create a new array to hold the output data for this "level"
-                OutputData = new int[NumBlocks];
-
-                // Call the reduction method to perform the current "level" of reduction
-                Reduction.InterleavedModulo(ClonedInputData, OutputData);
-            }
             Watch.Stop();
-            Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", OutputData[0], Watch.Elapsed.TotalMilliseconds);
+            Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", InterleavedModuloResult, Watch.Elapsed.TotalMilliseconds);
             Console.Out.Write("Test ");
-            if (OutputData[0] == CpuReductionValue) { ConsoleWriteLineColored("passed!", ConsoleColor.Green); }
+            if (InterleavedModuloResult == CpuReductionValue) { ConsoleWriteLineColored("passed!", ConsoleColor.Green); }
             else { ConsoleWriteLineColored("failed!", ConsoleColor.Red); }
             Console.Out.WriteLine();
             Watch.Reset();
@@ -131,44 +82,17 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
 
             #region reduce1 (Interleaved contiguous access)
 
-            // Clone the input data since we overwrite whatever data is used as input for the reduction
-            ClonedInputData = new int[NumElements];
-            Array.Copy(InputData, ClonedInputData, NumElements);
-
-            // Calculate the block and grid sizes needed for the first "level" of the reduction
-            CalculateBlockAndGridSizes(1, NumElements, out NumThreadsPerBlock, out NumBlocks);
-            Launcher.SetBlockSize(NumThreadsPerBlock);
-            Launcher.SetGridSize(NumBlocks);
-
             // Start the reduction (and the timer)
             Console.Out.WriteLine("Testing reduce1 (Interleaved contiguous access)...");
             Watch.Start();
 
-            // Perform the first "level" of the reduction
-            OutputData = new int[NumBlocks];
-            Reduction.InterleavedContiguous(ClonedInputData, OutputData);
+            // Call the reduction method, which will iterate the reduction kernel until the entire array is reduced
+            int InterleavedContiguousResult = Reduction.InterleavedContiguous(InputData);
 
-            // If necessary, perform additional "levels" of reduction until we have only a single element (the result)
-            while (NumBlocks > CpuThreshold)
-            {
-                // Calculate the number of threads and blocks based on the current input size
-                CalculateBlockAndGridSizes(1, NumBlocks, out NumThreadsPerBlock, out NumBlocks);
-                Launcher.SetBlockSize(NumThreadsPerBlock);
-                Launcher.SetGridSize(NumBlocks);
-
-                // Replace the current "level's" input data with the output data from the previous "level"
-                ClonedInputData = OutputData;
-
-                // Create a new array to hold the output data for this "level"
-                OutputData = new int[NumBlocks];
-
-                // Call the reduction method to perform the current "level" of reduction
-                Reduction.InterleavedContiguous(ClonedInputData, OutputData);
-            }
             Watch.Stop();
-            Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", OutputData[0], Watch.Elapsed.TotalMilliseconds);
+            Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", InterleavedContiguousResult, Watch.Elapsed.TotalMilliseconds);
             Console.Out.Write("Test ");
-            if (OutputData[0] == CpuReductionValue) { ConsoleWriteLineColored("passed!", ConsoleColor.Green); }
+            if (InterleavedContiguousResult == CpuReductionValue) { ConsoleWriteLineColored("passed!", ConsoleColor.Green); }
             else { ConsoleWriteLineColored("failed!", ConsoleColor.Red); }
             Console.Out.WriteLine();
             Watch.Reset();
@@ -177,97 +101,36 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
 
             #region reduce2 (Sequential addressing)
 
-            // Clone the input data since we overwrite whatever data is used as input for the reduction
-            ClonedInputData = new int[NumElements];
-            Array.Copy(InputData, ClonedInputData, NumElements);
-
-            // Calculate the block and grid sizes needed for the first "level" of the reduction
-            CalculateBlockAndGridSizes(2, NumElements, out NumThreadsPerBlock, out NumBlocks);
-            Launcher.SetBlockSize(NumThreadsPerBlock);
-            Launcher.SetGridSize(NumBlocks);
-
             // Start the reduction (and the timer)
             Console.Out.WriteLine("Testing reduce2 (Sequential addressing)...");
             Watch.Start();
 
-            // Perform the first "level" of the reduction
-            OutputData = new int[NumBlocks];
-            Reduction.SequentialAddressing(ClonedInputData, OutputData);
+            // Call the reduction method, which will iterate the reduction kernel until the entire array is reduced
+            int SequentialAddressingResult = Reduction.SequentialAddressing(InputData);
 
-            // If necessary, perform additional "levels" of reduction until we have only a single element (the result)
-            while (NumBlocks > CpuThreshold)
-            {
-                // Calculate the number of threads and blocks based on the current input size
-                CalculateBlockAndGridSizes(2, NumBlocks, out NumThreadsPerBlock, out NumBlocks);
-                Launcher.SetBlockSize(NumThreadsPerBlock);
-                Launcher.SetGridSize(NumBlocks);
-
-                // Replace the current "level's" input data with the output data from the previous "level"
-                ClonedInputData = OutputData;
-
-                // Create a new array to hold the output data for this "level"
-                OutputData = new int[NumBlocks];
-
-                // Call the reduction method to perform the current "level" of reduction
-                Reduction.SequentialAddressing(ClonedInputData, OutputData);
-            }
             Watch.Stop();
-            Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", OutputData[0], Watch.Elapsed.TotalMilliseconds);
+            Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", SequentialAddressingResult, Watch.Elapsed.TotalMilliseconds);
             Console.Out.Write("Test ");
-            if (OutputData[0] == CpuReductionValue) { ConsoleWriteLineColored("passed!", ConsoleColor.Green); }
+            if (SequentialAddressingResult == CpuReductionValue) { ConsoleWriteLineColored("passed!", ConsoleColor.Green); }
             else { ConsoleWriteLineColored("failed!", ConsoleColor.Red); }
             Console.Out.WriteLine();
             Watch.Reset();
 
             #endregion
 
-            // NOTE: reduce3 currently fails due to a compiler bug
             #region reduce3 (Sequential addressing with first reduction from global)
-
-            // Clone the input data since we overwrite whatever data is used as input for the reduction
-            ClonedInputData = new int[NumElements];
-            Array.Copy(InputData, ClonedInputData, NumElements);
-
-            // Calculate the block and grid sizes needed for the first "level" of the reduction
-            CalculateBlockAndGridSizes(3, NumElements, out NumThreadsPerBlock, out NumBlocks);
-            Launcher.SetBlockSize(NumThreadsPerBlock);
-            Launcher.SetGridSize(NumBlocks);
 
             // Start the reduction (and the timer)
             Console.Out.WriteLine("Testing reduce3 (Sequential addressing with reduction from global)...");
             Watch.Start();
 
-            // Perform the first "level" of the reduction
-            OutputData = new int[NumBlocks];
-            Reduction.SequentialAddressing(ClonedInputData, OutputData);
+            // Call the reduction method, which will iterate the reduction kernel until the entire array is reduced
+            int FirstReductionFromGlobalResult = Reduction.FirstReductionFromGlobal(InputData);
 
-            // If necessary, perform additional "levels" of reduction until we have only a single element (the result)
-            while (NumBlocks > CpuThreshold)
-            {
-                // TEMP: Calculate the result from the partial block sums (for testing purposes)
-                int TempResult = 0;
-                for (int i = 0; i < OutputData.Length; i++) { TempResult += OutputData[i]; }
-
-
-
-                // Calculate the number of threads and blocks based on the current input size
-                CalculateBlockAndGridSizes(3, NumBlocks, out NumThreadsPerBlock, out NumBlocks);
-                Launcher.SetBlockSize(NumThreadsPerBlock);
-                Launcher.SetGridSize(NumBlocks);
-
-                // Replace the current "level's" input data with the output data from the previous "level"
-                ClonedInputData = OutputData;
-
-                // Create a new array to hold the output data for this "level"
-                OutputData = new int[NumBlocks];
-
-                // Call the reduction method to perform the current "level" of reduction
-                Reduction.SequentialAddressing(ClonedInputData, OutputData);
-            }
             Watch.Stop();
-            Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", OutputData[0], Watch.Elapsed.TotalMilliseconds);
+            Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", FirstReductionFromGlobalResult, Watch.Elapsed.TotalMilliseconds);
             Console.Out.Write("Test ");
-            if (OutputData[0] == CpuReductionValue) { ConsoleWriteLineColored("passed!", ConsoleColor.Green); }
+            if (FirstReductionFromGlobalResult == CpuReductionValue) { ConsoleWriteLineColored("passed!", ConsoleColor.Green); }
             else { ConsoleWriteLineColored("failed!", ConsoleColor.Red); }
             Console.Out.WriteLine();
             Watch.Reset();
@@ -278,33 +141,6 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
             Environment.Exit(0);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="kernelNumber"></param>
-        /// <param name="numElements"></param>
-        /// <param name="numThreadsPerBlock"></param>
-        /// <param name="numBlocks"></param>
-        private static void CalculateBlockAndGridSizes(int kernelNumber, int numElements, out int numThreadsPerBlock, out int numBlocks)
-        {
-            // Preconditions
-            if (kernelNumber < 0) { throw new ArgumentOutOfRangeException("kernelNumber", "The kernel number cannot be negative."); }
-            else if (kernelNumber > 3) { throw new ArgumentOutOfRangeException("kernelNumber", "The kernel number cannot be greater than three (3)."); }
-            else if (numElements < 1) { throw new ArgumentOutOfRangeException("numElements", "The number of elements cannot be less than one (1)."); }
-
-            // Calculate and set the block and grid sizes
-            if (kernelNumber < 3)
-            {
-                numThreadsPerBlock = (numElements < MaxThreadsPerBlock) ? NextPowerOfTwo(numElements) : MaxThreadsPerBlock;
-                numBlocks = (numElements + numThreadsPerBlock - 1) / numThreadsPerBlock;
-            }
-            else
-            {
-                numThreadsPerBlock = (numElements < MaxThreadsPerBlock * 2) ? NextPowerOfTwo((numElements + 1) / 2) : MaxThreadsPerBlock;
-                numBlocks = (numElements + (numThreadsPerBlock * 2 - 1)) / (numThreadsPerBlock * 2);
-            }
         }
 
         /// <summary>
@@ -332,31 +168,11 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
         {
             // Preconditions
             if (str == null) { throw new ArgumentNullException("str"); }
-            
+
             ConsoleColor Old = Console.ForegroundColor;
             Console.ForegroundColor = color;
             Console.WriteLine(str);
             Console.ForegroundColor = Old;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="n"></param>
-        /// <returns></returns>
-        private static int NextPowerOfTwo(int n)
-        {
-            // Preconditions
-            if (n < 1) { throw new ArgumentOutOfRangeException("n", "The input cannot be less than one (1)."); }
-
-            // Compute the next-greatest power of two using a bit-manipulation formula
-            int Result = n - 1;
-            Result |= Result >> 1;
-            Result |= Result >> 2;
-            Result |= Result >> 4;
-            Result |= Result >> 8;
-            Result |= Result >> 16;
-            return (Result + 1);
         }
     }
 }

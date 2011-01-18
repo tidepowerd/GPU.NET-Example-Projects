@@ -24,9 +24,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="TidePowerd.DeviceMethods">
-      <HintPath>..\..\bin\TidePowerd.DeviceMethods.dll</HintPath>
-    </Reference>
+    <Reference Include="TidePowerd.DeviceMethods, Version=1.0.0.0, Culture=neutral, PublicKeyToken=450c6f1107a3324d, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlackScholes.cs" />
