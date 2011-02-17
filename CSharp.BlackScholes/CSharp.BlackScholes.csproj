@@ -8,8 +8,8 @@
     <ProjectGuid>{5541B81A-3909-4018-803A-07760273282A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CSharp.BlackScholes</RootNamespace>
-    <AssemblyName>CSharp.BlackScholes</AssemblyName>
+    <RootNamespace>TidePowerd.Example.CSharp.BlackScholes.Console</RootNamespace>
+    <AssemblyName>TidePowerd.Example.CSharp.BlackScholes.Console</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

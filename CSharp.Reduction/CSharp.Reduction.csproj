@@ -8,8 +8,8 @@
     <ProjectGuid>{18F06E16-909F-41AE-BEDF-361C2CC3DE8A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TidePowerd.Example.CSharp.Reduction.Cli</RootNamespace>
-    <AssemblyName>TidePowerd.Example.CSharp.Reduction.Cli</AssemblyName>
+    <RootNamespace>TidePowerd.Example.CSharp.Reduction.Console</RootNamespace>
+    <AssemblyName>TidePowerd.Example.CSharp.Reduction.Console</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

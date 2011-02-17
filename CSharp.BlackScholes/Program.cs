@@ -1,11 +1,29 @@
-﻿// Copyright 2010-2011 -- TidePowerd, Ltd. All rights reserved.
-// http://www.tidepowerd.com
-//
-// GPU.NET Black-Scholes Option Pricing Example (CSharp.BlackScholes)
-// Modified: 17-Jan-2011
-//
-// More examples available at: http://github.com/tidepowerd/GPU.NET-Example-Projects
-//
+﻿/*  The MIT License
+
+Copyright (c) 2011 TidePowerd Limited (http://www.tidepowerd.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
+// GPU.NET Example Project : Black-Scholes (C# Console)
+// More examples available at http://github.com/tidepowerd
 
 using System;
 using System.Diagnostics;
@@ -19,8 +37,8 @@ namespace TidePowerd.Example.CSharp.BlackScholes
         #region Constants
 
         // Set the number of options and iterations
-        private const int NumOptions = 4000000;
-        private const int NumGPUIterations = 40;
+        private const int NumOptions = 32 * 1000 * 1000;
+        private const int NumGPUIterations = 20;
         private const int NumCPUIterations = 1;
 
         // Set some simulation parameters
@@ -48,22 +66,10 @@ namespace TidePowerd.Example.CSharp.BlackScholes
             // Create copies of the option data arrays for use with the CPU calculations
             float[] CallResultsCPU = new float[NumOptions];
             float[] PutResultsCPU = new float[NumOptions];
-            float[] StockPricesCPU = new float[NumOptions];
-            Array.Copy(StockPrices, StockPricesCPU, NumOptions);
-            float[] OptionStrikePricesCPU = new float[NumOptions];
-            Array.Copy(OptionStrikePrices, OptionStrikePricesCPU, NumOptions);
-            float[] OptionYearsCPU = new float[NumOptions];
-            Array.Copy(OptionYears, OptionYearsCPU, NumOptions);
 
             // Create copies of the option data arrays for use with the GPU calculations
             float[] CallResultsGPU = new float[NumOptions];
             float[] PutResultsGPU = new float[NumOptions];
-            float[] StockPricesGPU = new float[NumOptions];
-            Array.Copy(StockPrices, StockPricesGPU, NumOptions);
-            float[] OptionStrikePricesGPU = new float[NumOptions];
-            Array.Copy(OptionStrikePrices, OptionStrikePricesGPU, NumOptions);
-            float[] OptionYearsGPU = new float[NumOptions];
-            Array.Copy(OptionYears, OptionYearsGPU, NumOptions);
 
             // Begin thread and processor affinity so we don't jump to a different core and skew our timing results
             System.Threading.Thread.BeginThreadAffinity();
@@ -79,8 +85,8 @@ namespace TidePowerd.Example.CSharp.BlackScholes
             // (Beta 3):    Note that the call to the kernel method is now "wrapped" by another method which performs the iteration;
             //              As of Beta 3, kernel methods must be decorated with the "private" access-modifier -- meaning they can only be
             //              called by host-based methods in the same class (usually decorated with either the "public" or "internal" access-modifier).
-            //              In this case, we've moved the loop into a new host-based method in the BlackScholes class.
-            BlackScholes.BlackScholesGPUIterative(CallResultsGPU, PutResultsGPU, StockPricesGPU, OptionStrikePricesGPU, OptionYearsGPU, RiskFree, Volatility, NumGPUIterations);
+            //              In this case, we've moved the loop into the calling method in the BlackScholes class.
+            BlackScholes.BlackScholesGPUIterative(CallResultsGPU, PutResultsGPU, StockPrices, OptionStrikePrices, OptionYears, RiskFree, Volatility, NumGPUIterations);
 
             // Stop the stopwatch and print GPU timing results
             Watch.Stop();
@@ -99,50 +105,51 @@ namespace TidePowerd.Example.CSharp.BlackScholes
             // Perform CPU-based calculations
             for (int Iteration = 0; Iteration < NumCPUIterations; Iteration++)
             {
-                BlackScholes.BlackScholesCPU(CallResultsCPU, PutResultsCPU, StockPricesCPU, OptionStrikePricesCPU, OptionYearsCPU, RiskFree, Volatility);
+                BlackScholes.BlackScholesCPU(CallResultsCPU, PutResultsCPU, StockPrices, OptionStrikePrices, OptionYears, RiskFree, Volatility);
             }
 
-            // Stop the stopwatch and end thread affinity
+            // Stop the stopwatch and print CPU timing results
             Watch.Stop();
             double ElapsedMillisecondsPerCPUIteration = Watch.Elapsed.TotalMilliseconds / (double)NumCPUIterations;
-            System.Threading.Thread.EndThreadAffinity();
-
-            // Print CPU timing results
             Console.WriteLine("Completed {0} iterations in {1:0.0000} ms.", NumCPUIterations, Watch.Elapsed.TotalMilliseconds);
             Console.WriteLine("Average time per iteration: {0:0.0000} ms.", ElapsedMillisecondsPerCPUIteration);
             Console.WriteLine();
 
+            // End thread affinity now that we've finished using Stopwatch          
+            System.Threading.Thread.EndThreadAffinity();
+
             // Print performance comparison data
-            Console.WriteLine("Option Count: {0}", 2 * NumOptions);
-            double GibibytesTransferred  = (5.0d * (double)NumOptions * (double)sizeof(float) * 2.0d) / Math.Pow(2.0d, 30.0d);  // GiB transferred (per round-trip)
-            Console.WriteLine("Effective Memory Bandwidth (avg): {0} GiB/s", GibibytesTransferred / (ElapsedMillisecondsPerGPUIteration / 1000.0d));  // GiB transferred (round trip) per iteration / seconds per iteration
+            Console.WriteLine("Option Count: {0}", NumOptions);
+            double GibibytesTransferred = (5.0d * (double)NumOptions * (double)sizeof(float)) / Math.Pow(2.0d, 30.0d);  // GiB transferred (per round-trip)
+            Console.WriteLine("Effective Host<->Device Memory Bandwidth (avg): {0} GiB/s", GibibytesTransferred / (ElapsedMillisecondsPerGPUIteration / 1000.0d));  // GiB transferred (round trip) per iteration / seconds per iteration
             Console.WriteLine("GPU Speedup vs. CPU: ~{0}x", ElapsedMillisecondsPerCPUIteration / ElapsedMillisecondsPerGPUIteration);
             Console.WriteLine();
 
             // Print message to console
-            Console.Write("Verifying calculations...");
+            Console.WriteLine("Verifying calculations...");
 
             // Verify that GPU & CPU calculations match (their difference should be within a certain threshold)
-            double SumDelta = 0d, SumRef = 0d, MaxDelta = 0d;
-            for (int OptionIndex = 0; OptionIndex < CallResultsCPU.Length; OptionIndex++)
-            {
-                double Delta = Math.Abs(CallResultsCPU[OptionIndex] - CallResultsGPU[OptionIndex]);
-                
-                if (Delta > MaxDelta) { MaxDelta = Delta; }
+            double OneNorm = 0d, TwoNorm = 0d, MaxNorm = 0d;
 
-                SumDelta += Delta;
+            // Call option verification
+            Console.WriteLine("Call Option Price Data:");
+            NormsOfDifferenceVector(CallResultsCPU, CallResultsGPU, out OneNorm, out TwoNorm, out MaxNorm);
 
-                SumRef = Math.Abs(CallResultsCPU[OptionIndex]);
-            }
-            double L1Norm = SumDelta / SumRef;
+            Console.WriteLine("L1-Norm: {0}", OneNorm);
+            Console.WriteLine("L2-Norm: {0}", TwoNorm);
+            Console.WriteLine("Max-Norm: {0}", MaxNorm);
 
-            // Print verification message to console
-            Console.WriteLine("L1 Norm: {0}", L1Norm);
-            Console.WriteLine("Max absolute error: {0}", MaxDelta);
+            // Put option verification
+            Console.WriteLine("Put Option Price Data:");
+            NormsOfDifferenceVector(PutResultsCPU, PutResultsGPU, out OneNorm, out TwoNorm, out MaxNorm);
 
-            //// The maximum L1 Norm between GPU and CPU result value
-            ////const float MaxL1NormError = 0.000001f;       // 1E-6 or 0.0001%
-            //const float MaxL1NormError = 0.001f;       // 1E-3 or 0.1%
+            Console.WriteLine("L1 Norm: {0}", OneNorm);
+            Console.WriteLine("L2-Norm: {0}", TwoNorm);
+            Console.WriteLine("Max-Norm: {0}", MaxNorm);
+
+            //// If the max-norm is less than a reasonable threshold, verification has passed
+            //double ErrorRatio = (OneNorm - (NumOptions * (double)Single.Epsilon)) / (NumOptions * (double)Single.Epsilon);
+            //Console.WriteLine("Error Ratio: {0}", ErrorRatio);
             
             //// Print a message denoting if verification has passed or not
             //Console.WriteLine((L1Norm < MaxL1NormError) ? "Verification successful!" : "Verification ERROR!");
@@ -151,6 +158,52 @@ namespace TidePowerd.Example.CSharp.BlackScholes
             Console.WriteLine();
             Console.WriteLine("Press any key to exit...");
             ConsoleKeyInfo cki = Console.ReadKey();
+        }
+
+        /// <summary>
+        /// Subtracts the computed-results vector from the reference-results vector, then computes various norms on the difference vector.
+        /// </summary>
+        /// <param name="reference"></param>
+        /// <param name="results"></param>
+        /// <param name="oneNorm">The L1-norm of the difference vector.</param>
+        /// <param name="twoNorm">The L2-norm of the difference vector.</param>
+        /// <param name="maxNorm">The maximum-norm of the difference vector.</param>
+        private static void NormsOfDifferenceVector(float[] reference, float[] results, out double oneNorm, out double twoNorm, out double maxNorm)
+        {
+            // Preconditions
+            if (reference == null) { throw new ArgumentNullException("reference"); }
+            else if (results == null) { throw new ArgumentNullException("results"); }
+            else if (reference.Length != results.Length) { throw new ArgumentException("The result vector does not have the same length as the reference vector.", "results"); }
+
+            // Postconditions
+            // TODO: twoNorm >= 0
+            // TODO: maxNorm >= 0
+
+            // Holds the running sum of the difference vector's elements (for the L1-norm)
+            double SumOfAbsoluteDifferences = 0d;
+
+            // Holds the running sum of the squares of the difference vector's elements (for the L2-norm)
+            double SumOfSquaresOfDifferences = 0d;
+
+            // Holds the largest (by absolute value) single difference between a reference and computed element pair
+            double LargestAbsoluteDifference = 0d;
+
+            // Iterate over the vectors, computing the differences between the elements and updating the temporary variables
+            for (int i = 0; i < reference.Length; i++)
+            {
+                // Compute the difference between the current reference and result elements
+                double Diff = reference[i] - results[i];
+
+                // Update temporary variables
+                SumOfAbsoluteDifferences += Math.Abs(Diff);
+                SumOfSquaresOfDifferences += Math.Pow(Diff, 2.0d);
+                LargestAbsoluteDifference = Math.Max(LargestAbsoluteDifference, Math.Abs(Diff));
+            }
+
+            // Set the output values
+            oneNorm = SumOfAbsoluteDifferences;
+            twoNorm = Math.Sqrt(SumOfSquaresOfDifferences);
+            maxNorm = LargestAbsoluteDifference;
         }
 
         /// <summary>

@@ -1,11 +1,29 @@
-﻿// Copyright 2010-2011 -- TidePowerd, Ltd. All rights reserved.
-// http://www.tidepowerd.com
-//
-// GPU.NET Reduction Example (CSharp.Reduction)
-// Modified: 17-Jan-2011
-//
-// More examples available at: http://github.com/tidepowerd/GPU.NET-Example-Projects
-//
+﻿/*  The MIT License
+
+Copyright (c) 2011 TidePowerd Limited (http://www.tidepowerd.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
+// GPU.NET Example Project : Reduction (C# Console)
+// More examples available at http://github.com/tidepowerd
 
 using System;
 using System.ComponentModel;
@@ -352,6 +370,48 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
         {
             // Preconditions
             if (input == null) { throw new ArgumentNullException("input"); }
+
+            //// Perform the first "level" of the reduction
+            //OutputData = new int[NumBlocks];
+            //Reduction.FirstReductionFromGlobalKernel(ClonedInputData, OutputData);
+
+            //// If necessary, perform additional "levels" of reduction until we have only a single element (the result)
+            //while (NumBlocks > CpuThreshold)
+            //{
+            //    // TEMP: Calculate the result from the partial block sums (for testing purposes)
+            //    int TempResult = 0;
+            //    for (int i = 0; i < OutputData.Length; i++) { TempResult += OutputData[i]; }
+
+
+
+            //    // Calculate the number of threads and blocks based on the current input size
+            //    CalculateBlockAndGridSizes(3, NumBlocks, out NumThreadsPerBlock, out NumBlocks);
+            //    Launcher.SetBlockSize(NumThreadsPerBlock);
+            //    Launcher.SetGridSize(NumBlocks);
+
+            //    // Replace the current "level's" input data with the output data from the previous "level"
+            //    ClonedInputData = OutputData;
+
+            //    // Create a new array to hold the output data for this "level"
+            //    OutputData = new int[NumBlocks];
+
+            //    // Call the reduction method to perform the current "level" of reduction
+            //    Reduction.FirstReductionFromGlobalKernel(ClonedInputData, OutputData);
+            //}
+            //Watch.Stop();
+            //Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", OutputData[0], Watch.Elapsed.TotalMilliseconds);
+            //Console.Out.Write("Test ");
+            //if (OutputData[0] == CpuReductionValue) { ConsoleWriteLineColored("passed!", ConsoleColor.Green); }
+            //else { ConsoleWriteLineColored("failed!", ConsoleColor.Red); }
+            //Console.Out.WriteLine();
+            //Watch.Reset();
+
+
+
+
+
+
+
 
             // Declare variables to hold the current number of threads per block and number of blocks; re-used throughout the code below
             int NumThreadsPerBlock = 0, NumBlocks = 0;
