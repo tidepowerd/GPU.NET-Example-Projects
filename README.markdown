@@ -7,6 +7,14 @@ Project Descriptions
 *	**[CSharp.BlackScholes](http://github.com/tidepowerd/GPU.NET-Example-Projects/tree/master/CSharp.BlackScholes/)**
 
 	Generates random option data, then computes the call/put option prices on the GPU using the Black-Scholes model.
+	
+*	**[CSharp.BlackScholes.WinForms](http://github.com/tidepowerd/GPU.NET-Example-Projects/tree/master/CSharp.BlackScholes.WinForms/)**
+
+	The same kernels demonstrated in CSharp.BlackScholes, but wrapped in a WinForms GUI which uses BackgroundWorker instances to keep the GUI responsive while running the calculations in the background.
+	
+*	**[CSharp.LinearAlgebra](http://github.com/tidepowerd/GPU.NET-Example-Projects/tree/master/CSharp.LinearAlgebra/)**
+
+	Demonstrates GPU-based implementations of basic vector/matrix operations.
 
 *	**[CSharp.Reduction](http://github.com/tidepowerd/GPU.NET-Example-Projects/tree/master/CSharp.Reduction/)**
 
