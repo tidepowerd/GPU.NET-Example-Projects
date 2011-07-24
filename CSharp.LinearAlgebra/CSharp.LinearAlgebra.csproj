@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TidePowerd.Example.CSharp.LinearAlgebra</RootNamespace>
     <AssemblyName>TidePowerd.Example.CSharp.LinearAlgebra</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <GpuNetAccelerationEnabled>True</GpuNetAccelerationEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -38,10 +39,13 @@
     <Reference Include="TidePowerd.DeviceMethods, Version=2.0.0.0, Culture=neutral, PublicKeyToken=450c6f1107a3324d, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-	<Compile Include="AssemblyInfo.cs" />
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="VectorOps.cs" />
     <Compile Include="MatrixOps.cs" />
     <Compile Include="Program.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
