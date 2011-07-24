@@ -199,7 +199,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>"$(ProjectDir)..\..\Build\bin\Debug\TidePowerd.Build.exe" "$(TargetPath)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!--
     To modify your build process, add your task inside one of the targets below and uncomment it.
