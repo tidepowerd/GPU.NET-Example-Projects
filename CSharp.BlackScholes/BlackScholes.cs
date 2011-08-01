@@ -26,6 +26,7 @@ THE SOFTWARE.
 // More examples available at http://github.com/tidepowerd
 
 using System;
+using System.Threading.Tasks;
 using TidePowerd.DeviceMethods;
 
 namespace TidePowerd.Example.CSharp.BlackScholes
@@ -65,7 +66,7 @@ namespace TidePowerd.Example.CSharp.BlackScholes
         public static void BlackScholesCPU(float[] callResult, float[] putResult, float[] stockPrice, float[] optionStrike, float[] optionYears, float riskFree, float volatility)
         {
             // Loop over the stock data and calculate the call and put prices for each
-            for (int OptionIndex = 0; OptionIndex < callResult.Length; OptionIndex++)
+            Parallel.For(0, callResult.Length, OptionIndex =>
             {
                 float s = stockPrice[OptionIndex];
                 float x = optionStrike[OptionIndex];
@@ -93,7 +94,7 @@ namespace TidePowerd.Example.CSharp.BlackScholes
                 // Calculate the values of the call and put options
                 callResult[OptionIndex] = s * CndD1 - x * ExpRT * CndD2;
                 putResult[OptionIndex] = x * ExpRT * (1.0f - CndD2) - s * (1.0f - CndD1);
-            }
+            });
         }
 
         /// <summary>
