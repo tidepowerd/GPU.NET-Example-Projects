@@ -75,17 +75,31 @@ namespace TidePowerd.Example.CSharp.BlackScholes
             System.Threading.Thread.BeginThreadAffinity();
             // TODO: Set processor affinity mask
 
-            // Print message to console
-            Console.Write("Performing GPU-based calculations...");
+            // Create a stopwatch to measure the calculations via the system high-precision event timer (HPET).
+            Stopwatch Watch = new Stopwatch();
 
-            // Create and start stopwatch for performance calculations
-            Stopwatch Watch = Stopwatch.StartNew();
+#if BENCHMARKING
+            // Run a single iteration of the GPU-based method to force initialization of the GPU.NET Runtime and Plugins.
+            // This normally occurs upon the first kernel method invocation after an accelerated assembly (i.e., the current assembly)
+            // is loaded, but there is some overhead incurred because the .NET CLR needs to load and JIT the assemblies before
+            // they can be used. As this occurs only once, calling a single iteration of a kernel method will remove this overhead from
+            // within the code we're actually interested in timing.
+            Console.WriteLine("Forcing initialization of the GPU.NET Runtime and Plugins...");
+            
+            Watch.Start();
+            BlackScholes.BlackScholesGPUSingleIteration(CallResultsGPU, PutResultsGPU, StockPrices, OptionStrikePrices, OptionYears, RiskFree, Volatility);
+            Watch.Stop();
+
+            Console.WriteLine("Initialization completed in {0:0.0000} ms.", Watch.Elapsed.TotalMilliseconds);
+#endif
+            // Print message to console
+            Console.WriteLine("Performing GPU-based calculations...");
+
+            // Reset (if necessary) and start stopwatch to measure GPU calculation speed.
+            Watch.Reset();
+            Watch.Start();
 
             // Execute the kernel "NumIterations" times
-            // (Beta 3):    Note that the call to the kernel method is now "wrapped" by another method which performs the iteration;
-            //              As of Beta 3, kernel methods must be decorated with the "private" access-modifier -- meaning they can only be
-            //              called by host-based methods in the same class (usually decorated with either the "public" or "internal" access-modifier).
-            //              In this case, we've moved the loop into the calling method in the BlackScholes class.
             BlackScholes.BlackScholesGPUIterative(CallResultsGPU, PutResultsGPU, StockPrices, OptionStrikePrices, OptionYears, RiskFree, Volatility, NumGPUIterations);
 
             // Stop the stopwatch and print GPU timing results
