@@ -39,7 +39,7 @@ namespace TidePowerd.Example.CSharp.BlackScholes
         // Set the number of options and iterations
         private const int NumOptions = 32 * 1000 * 1000;
         private const int NumGPUIterations = 20;
-        private const int NumCPUIterations = 1;
+        private const int NumCPUIterations = 3;
 
         // Set some simulation parameters
         private const float RiskFree = 0.02f;
@@ -110,7 +110,7 @@ namespace TidePowerd.Example.CSharp.BlackScholes
             Console.WriteLine();
 
             // Print message to console
-            Console.WriteLine("Performing CPU-based calculations...");
+            Console.WriteLine("Performing CPU-based calculations on {0} core(s)...", System.Environment.ProcessorCount);
 
             // Restart the stopwatch
             Watch.Reset();
