@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TidePowerd.Example.CSharp.BlackScholes.Console</RootNamespace>
     <AssemblyName>TidePowerd.Example.CSharp.BlackScholes.Console</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <GpuNetAccelerationEnabled>True</GpuNetAccelerationEnabled>
   </PropertyGroup>
