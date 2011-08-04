@@ -30,7 +30,7 @@ using System.ComponentModel;
 
 using TidePowerd.DeviceMethods;
 
-namespace TidePowerd.Example.CSharp.Reduction.Cli
+namespace TidePowerd.Example.CSharp.Reduction.Console
 {
     /// <summary>
     /// Contains methods for performing sum-reductions on arrays.

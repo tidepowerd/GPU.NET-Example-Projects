@@ -30,7 +30,7 @@ using System.Diagnostics;
 
 using TidePowerd.DeviceMethods;
 
-namespace TidePowerd.Example.CSharp.Reduction.Cli
+namespace TidePowerd.Example.CSharp.Reduction.Console
 {
     class Program
     {
@@ -48,9 +48,9 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
             int[] InputData = new int[NumElements];
 
             // Print 'header'
-            Console.Out.WriteLine("Performing shared-memory reduction tests...");
-            Console.Out.WriteLine("----------------------------------------------------------------------");
-            Console.Out.Write("Generating random test data ({0} {1} elements)...", NumElements, InputData.GetType().GetElementType().Name);
+            System.Console.Out.WriteLine("Performing shared-memory reduction tests...");
+            System.Console.Out.WriteLine("----------------------------------------------------------------------");
+            System.Console.Out.Write("Generating random test data ({0} {1} elements)...", NumElements, InputData.GetType().GetElementType().Name);
 
             // Fill the input data with random values; these values must fall between zero (0) and the maximum number, which if multiplied by the array length, would still fit in an int32 (signed int) value
             // This is to make our results easier to validate, since we don't have to deal with possible overflow behavior
@@ -60,8 +60,8 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
             {
                 InputData[i] = rand.Next(MaxValue);
             }
-            Console.Out.WriteLine("done.");
-            Console.Out.WriteLine();
+            System.Console.Out.WriteLine("done.");
+            System.Console.Out.WriteLine();
 
             // Create the stopwatch we'll use to time how long each reduction takes
             Stopwatch Watch = new Stopwatch();
@@ -69,31 +69,31 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
             // Compute the reduction value on the CPU first so that we can compare it to the GPU-based results
             // TODO: Perform the reduction 2 or 3 times here to get an accurate timing result
             // TODO: Create a version of this project which uses PLINQ / TPL for comparison
-            Console.Out.WriteLine("Computing CPU-based result for comparison...");
+            System.Console.Out.WriteLine("Computing CPU-based result for comparison...");
             Watch.Start();
             int CpuReductionValue = 0;
             for (int i = 0; i < InputData.Length; i++) { CpuReductionValue += InputData[i]; }
             Watch.Stop();
-            Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", CpuReductionValue, Watch.Elapsed.TotalMilliseconds);
-            Console.Out.WriteLine();
-            Console.Out.WriteLine("----------------------------------------------------------------------");
+            System.Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", CpuReductionValue, Watch.Elapsed.TotalMilliseconds);
+            System.Console.Out.WriteLine();
+            System.Console.Out.WriteLine("----------------------------------------------------------------------");
             Watch.Reset();
 
             #region reduce0 (Interleaved access with modulo operator)
 
             // Start the reduction (and the timer)
-            Console.Out.WriteLine("Testing reduce0 (Interleaved access with modulo operator)...");
+            System.Console.Out.WriteLine("Testing reduce0 (Interleaved access with modulo operator)...");
             Watch.Start();
 
             // Call the reduction method, which will iterate the reduction kernel until the entire array is reduced
             int InterleavedModuloResult = Reduction.InterleavedModulo(InputData);
 
             Watch.Stop();
-            Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", InterleavedModuloResult, Watch.Elapsed.TotalMilliseconds);
-            Console.Out.Write("Test ");
+            System.Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", InterleavedModuloResult, Watch.Elapsed.TotalMilliseconds);
+            System.Console.Out.Write("Test ");
             if (InterleavedModuloResult == CpuReductionValue) { ConsoleWriteLineColored("passed!", ConsoleColor.Green); }
             else { ConsoleWriteLineColored("failed!", ConsoleColor.Red); }
-            Console.Out.WriteLine();
+            System.Console.Out.WriteLine();
             Watch.Reset();
 
             #endregion
@@ -101,18 +101,18 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
             #region reduce1 (Interleaved contiguous access)
 
             // Start the reduction (and the timer)
-            Console.Out.WriteLine("Testing reduce1 (Interleaved contiguous access)...");
+            System.Console.Out.WriteLine("Testing reduce1 (Interleaved contiguous access)...");
             Watch.Start();
 
             // Call the reduction method, which will iterate the reduction kernel until the entire array is reduced
             int InterleavedContiguousResult = Reduction.InterleavedContiguous(InputData);
 
             Watch.Stop();
-            Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", InterleavedContiguousResult, Watch.Elapsed.TotalMilliseconds);
-            Console.Out.Write("Test ");
+            System.Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", InterleavedContiguousResult, Watch.Elapsed.TotalMilliseconds);
+            System.Console.Out.Write("Test ");
             if (InterleavedContiguousResult == CpuReductionValue) { ConsoleWriteLineColored("passed!", ConsoleColor.Green); }
             else { ConsoleWriteLineColored("failed!", ConsoleColor.Red); }
-            Console.Out.WriteLine();
+            System.Console.Out.WriteLine();
             Watch.Reset();
 
             #endregion
@@ -120,18 +120,18 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
             #region reduce2 (Sequential addressing)
 
             // Start the reduction (and the timer)
-            Console.Out.WriteLine("Testing reduce2 (Sequential addressing)...");
+            System.Console.Out.WriteLine("Testing reduce2 (Sequential addressing)...");
             Watch.Start();
 
             // Call the reduction method, which will iterate the reduction kernel until the entire array is reduced
             int SequentialAddressingResult = Reduction.SequentialAddressing(InputData);
 
             Watch.Stop();
-            Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", SequentialAddressingResult, Watch.Elapsed.TotalMilliseconds);
-            Console.Out.Write("Test ");
+            System.Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", SequentialAddressingResult, Watch.Elapsed.TotalMilliseconds);
+            System.Console.Out.Write("Test ");
             if (SequentialAddressingResult == CpuReductionValue) { ConsoleWriteLineColored("passed!", ConsoleColor.Green); }
             else { ConsoleWriteLineColored("failed!", ConsoleColor.Red); }
-            Console.Out.WriteLine();
+            System.Console.Out.WriteLine();
             Watch.Reset();
 
             #endregion
@@ -139,25 +139,25 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
             #region reduce3 (Sequential addressing with first reduction from global)
 
             // Start the reduction (and the timer)
-            Console.Out.WriteLine("Testing reduce3 (Sequential addressing with reduction from global)...");
+            System.Console.Out.WriteLine("Testing reduce3 (Sequential addressing with reduction from global)...");
             Watch.Start();
 
             // Call the reduction method, which will iterate the reduction kernel until the entire array is reduced
             int FirstReductionFromGlobalResult = Reduction.FirstReductionFromGlobal(InputData);
 
             Watch.Stop();
-            Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", FirstReductionFromGlobalResult, Watch.Elapsed.TotalMilliseconds);
-            Console.Out.Write("Test ");
+            System.Console.Out.WriteLine("done. (Value = {0}, Time = {1:F02} ms)", FirstReductionFromGlobalResult, Watch.Elapsed.TotalMilliseconds);
+            System.Console.Out.Write("Test ");
             if (FirstReductionFromGlobalResult == CpuReductionValue) { ConsoleWriteLineColored("passed!", ConsoleColor.Green); }
             else { ConsoleWriteLineColored("failed!", ConsoleColor.Red); }
-            Console.Out.WriteLine();
+            System.Console.Out.WriteLine();
             Watch.Reset();
 
             #endregion
 
             // Print the exit message
-            Console.WriteLine("Press any key to exit.");
-            Console.ReadKey();
+            System.Console.WriteLine("Press any key to exit.");
+            System.Console.ReadKey();
             Environment.Exit(0);
         }
 
@@ -171,10 +171,10 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
             // Preconditions
             if (str == null) { throw new ArgumentNullException("str"); }
 
-            ConsoleColor Old = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.Write(str);
-            Console.ForegroundColor = Old;
+            ConsoleColor Old = System.Console.ForegroundColor;
+            System.Console.ForegroundColor = color;
+            System.Console.Write(str);
+            System.Console.ForegroundColor = Old;
         }
 
         /// <summary>
@@ -186,11 +186,11 @@ namespace TidePowerd.Example.CSharp.Reduction.Cli
         {
             // Preconditions
             if (str == null) { throw new ArgumentNullException("str"); }
-            
-            ConsoleColor Old = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.WriteLine(str);
-            Console.ForegroundColor = Old;
+
+            ConsoleColor Old = System.Console.ForegroundColor;
+            System.Console.ForegroundColor = color;
+            System.Console.WriteLine(str);
+            System.Console.ForegroundColor = Old;
         }
     }
 }

@@ -29,7 +29,7 @@ using System;
 using System.Threading.Tasks;
 using TidePowerd.DeviceMethods;
 
-namespace TidePowerd.Example.CSharp.BlackScholes
+namespace TidePowerd.Example.CSharp.BlackScholes.Console
 {
     /// <summary>
     /// Contains method to calculate option prices via the Black-Scholes formula.

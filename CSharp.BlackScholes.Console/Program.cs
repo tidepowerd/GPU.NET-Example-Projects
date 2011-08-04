@@ -30,7 +30,7 @@ using System.Diagnostics;
 
 using TidePowerd.DeviceMethods;
 
-namespace TidePowerd.Example.CSharp.BlackScholes
+namespace TidePowerd.Example.CSharp.BlackScholes.Console
 {
     class Program
     {
@@ -93,7 +93,7 @@ namespace TidePowerd.Example.CSharp.BlackScholes
             Console.WriteLine("Initialization completed in {0:0.0000} ms.", Watch.Elapsed.TotalMilliseconds);
 #endif
             // Print message to console
-            Console.WriteLine("Performing GPU-based calculations...");
+            System.Console.WriteLine("Performing GPU-based calculations...");
 
             // Reset (if necessary) and start stopwatch to measure GPU calculation speed.
             Watch.Reset();
@@ -105,12 +105,12 @@ namespace TidePowerd.Example.CSharp.BlackScholes
             // Stop the stopwatch and print GPU timing results
             Watch.Stop();
             double ElapsedMillisecondsPerGPUIteration = Watch.Elapsed.TotalMilliseconds / (double)NumGPUIterations;
-            Console.WriteLine("Completed {0} iterations in {1:0.0000} ms.", NumGPUIterations, Watch.Elapsed.TotalMilliseconds);
-            Console.WriteLine("Average time per iteration: {0:0.0000} ms.", ElapsedMillisecondsPerGPUIteration);
-            Console.WriteLine();
+            System.Console.WriteLine("Completed {0} iterations in {1:0.0000} ms.", NumGPUIterations, Watch.Elapsed.TotalMilliseconds);
+            System.Console.WriteLine("Average time per iteration: {0:0.0000} ms.", ElapsedMillisecondsPerGPUIteration);
+            System.Console.WriteLine();
 
             // Print message to console
-            Console.WriteLine("Performing CPU-based calculations on {0} core(s)...", System.Environment.ProcessorCount);
+            System.Console.WriteLine("Performing CPU-based calculations on {0} core(s)...", System.Environment.ProcessorCount);
 
             // Restart the stopwatch
             Watch.Reset();
@@ -125,53 +125,49 @@ namespace TidePowerd.Example.CSharp.BlackScholes
             // Stop the stopwatch and print CPU timing results
             Watch.Stop();
             double ElapsedMillisecondsPerCPUIteration = Watch.Elapsed.TotalMilliseconds / (double)NumCPUIterations;
-            Console.WriteLine("Completed {0} iterations in {1:0.0000} ms.", NumCPUIterations, Watch.Elapsed.TotalMilliseconds);
-            Console.WriteLine("Average time per iteration: {0:0.0000} ms.", ElapsedMillisecondsPerCPUIteration);
-            Console.WriteLine();
+            System.Console.WriteLine("Completed {0} iterations in {1:0.0000} ms.", NumCPUIterations, Watch.Elapsed.TotalMilliseconds);
+            System.Console.WriteLine("Average time per iteration: {0:0.0000} ms.", ElapsedMillisecondsPerCPUIteration);
+            System.Console.WriteLine();
 
             // End thread affinity now that we've finished using Stopwatch          
             System.Threading.Thread.EndThreadAffinity();
 
             // Print performance comparison data
-            Console.WriteLine("Option Count: {0}", NumOptions);
+            System.Console.WriteLine("Option Count (Call/Put Pairs): {0}", NumOptions);
             double GibibytesTransferred = (5.0d * (double)NumOptions * (double)sizeof(float)) / Math.Pow(2.0d, 30.0d);  // GiB transferred (per round-trip)
-            Console.WriteLine("Effective Host<->Device Memory Bandwidth (avg): {0} GiB/s", GibibytesTransferred / (ElapsedMillisecondsPerGPUIteration / 1000.0d));  // GiB transferred (round trip) per iteration / seconds per iteration
-            Console.WriteLine("GPU Speedup vs. CPU: ~{0}x", ElapsedMillisecondsPerCPUIteration / ElapsedMillisecondsPerGPUIteration);
-            Console.WriteLine();
+            System.Console.WriteLine("Effective Host<->Device Memory Bandwidth (avg): {0:0.0000} GiB/s", GibibytesTransferred / (ElapsedMillisecondsPerGPUIteration / 1000.0d));  // GiB transferred (round trip) per iteration / seconds per iteration
+            System.Console.WriteLine("GPU Speedup vs. CPU: ~{0:0.0000}x", ElapsedMillisecondsPerCPUIteration / ElapsedMillisecondsPerGPUIteration);
+            System.Console.WriteLine();
 
             // Print message to console
-            Console.WriteLine("Verifying calculations...");
+            System.Console.WriteLine("Verifying calculations...");
 
             // Verify that GPU & CPU calculations match (their difference should be within a certain threshold)
             double OneNorm = 0d, TwoNorm = 0d, MaxNorm = 0d;
 
             // Call option verification
-            Console.WriteLine("Call Option Price Data:");
+            System.Console.WriteLine("Call Option Price Data:");
             NormsOfDifferenceVector(CallResultsCPU, CallResultsGPU, out OneNorm, out TwoNorm, out MaxNorm);
 
-            Console.WriteLine("L1-Norm: {0}", OneNorm);
-            Console.WriteLine("L2-Norm: {0}", TwoNorm);
-            Console.WriteLine("Max-Norm: {0}", MaxNorm);
+            System.Console.WriteLine("L1-Norm: {0}", OneNorm);
+            System.Console.WriteLine("L2-Norm: {0}", TwoNorm);
+            System.Console.WriteLine("Max-Norm: {0}", MaxNorm);
 
             // Put option verification
-            Console.WriteLine("Put Option Price Data:");
+            System.Console.WriteLine("Put Option Price Data:");
             NormsOfDifferenceVector(PutResultsCPU, PutResultsGPU, out OneNorm, out TwoNorm, out MaxNorm);
 
-            Console.WriteLine("L1 Norm: {0}", OneNorm);
-            Console.WriteLine("L2-Norm: {0}", TwoNorm);
-            Console.WriteLine("Max-Norm: {0}", MaxNorm);
+            System.Console.WriteLine("L1 Norm: {0}", OneNorm);
+            System.Console.WriteLine("L2-Norm: {0}", TwoNorm);
+            System.Console.WriteLine("Max-Norm: {0}", MaxNorm);
 
             //// If the max-norm is less than a reasonable threshold, verification has passed
-            //double ErrorRatio = (OneNorm - (NumOptions * (double)Single.Epsilon)) / (NumOptions * (double)Single.Epsilon);
-            //Console.WriteLine("Error Ratio: {0}", ErrorRatio);
-            
-            //// Print a message denoting if verification has passed or not
-            //Console.WriteLine((L1Norm < MaxL1NormError) ? "Verification successful!" : "Verification ERROR!");
+            // TODO : Determine what a reasonable error threshold is (based on the number of options).
 
             // Wait to exit
-            Console.WriteLine();
-            Console.WriteLine("Press any key to exit...");
-            ConsoleKeyInfo cki = Console.ReadKey();
+            System.Console.WriteLine();
+            System.Console.WriteLine("Press any key to exit...");
+            ConsoleKeyInfo cki = System.Console.ReadKey();
         }
 
         /// <summary>
