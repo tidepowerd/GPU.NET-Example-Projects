@@ -26,10 +26,9 @@ THE SOFTWARE.
 // More examples available at http://github.com/tidepowerd
 
 using System;
-
 using TidePowerd.DeviceMethods;
 
-namespace TidePowerd.Example.CSharp.LinearAlgebra
+namespace TidePowerd.Example.CSharp.LinearAlgebra.Library
 {
     /// <summary>
     /// Provides methods to perform basic matrix operations.
