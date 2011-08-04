@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.BlackScholes", "CSharp.BlackScholes\CSharp.BlackScholes.csproj", "{5541B81A-3909-4018-803A-07760273282A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.BlackScholes.Console", "CSharp.BlackScholes.Console\CSharp.BlackScholes.Console.VS2010.csproj", "{5541B81A-3909-4018-803A-07760273282A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.BlackScholes.WinForms", "CSharp.BlackScholes.WinForms\CSharp.BlackScholes.WinForms.csproj", "{5806EC3D-9003-46B8-BC5C-26CF51840DF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.BlackScholes.WinForms", "CSharp.BlackScholes.WinForms\CSharp.BlackScholes.WinForms.VS2010.csproj", "{5806EC3D-9003-46B8-BC5C-26CF51840DF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.LinearAlgebra", "CSharp.LinearAlgebra\CSharp.LinearAlgebra.csproj", "{FAA0452D-5BC6-49B0-AF47-72FA92266803}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.LinearAlgebra.Library", "CSharp.LinearAlgebra.Library\CSharp.LinearAlgebra.Library.VS2010.csproj", "{FAA0452D-5BC6-49B0-AF47-72FA92266803}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.Reduction", "CSharp.Reduction\CSharp.Reduction.csproj", "{18F06E16-909F-41AE-BEDF-361C2CC3DE8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.Reduction.Console", "CSharp.Reduction.Console\CSharp.Reduction.Console.VS2010.csproj", "{18F06E16-909F-41AE-BEDF-361C2CC3DE8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
