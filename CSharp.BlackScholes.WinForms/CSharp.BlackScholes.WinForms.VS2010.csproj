@@ -12,7 +12,6 @@
     <AssemblyName>TidePowerd.Example.CSharp.BlackScholes.WinForms</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <GpuNetAccelerationEnabled>True</GpuNetAccelerationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +20,7 @@
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <GpuNetAccelerationEnabled>True</GpuNetAccelerationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
@@ -29,6 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <GpuNetAccelerationEnabled>True</GpuNetAccelerationEnabled>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

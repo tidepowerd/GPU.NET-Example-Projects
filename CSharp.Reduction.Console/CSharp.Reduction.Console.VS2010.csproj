@@ -12,7 +12,6 @@
     <AssemblyName>TidePowerd.Example.CSharp.Reduction.Console</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <GpuNetAccelerationEnabled>True</GpuNetAccelerationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +21,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <GpuNetAccelerationEnabled>True</GpuNetAccelerationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
@@ -31,6 +31,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <GpuNetAccelerationEnabled>True</GpuNetAccelerationEnabled>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
