@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.MonteCarlo.Library.V
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.MonteCarlo.Console.VS2010", "CSharp.MonteCarlo.Console\CSharp.MonteCarlo.Console.VS2010.csproj", "{655A437B-E6F9-4F40-923C-0FDB445C5280}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.UnitTesting.Test.VS2010", "CSharp.UnitTesting.Test\CSharp.UnitTesting.Test.VS2010.csproj", "{ED6626D8-6BD4-4708-ACD3-291D353D7F4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,16 @@ Global
 		{655A437B-E6F9-4F40-923C-0FDB445C5280}.Release|Mixed Platforms.Build.0 = Release|x86
 		{655A437B-E6F9-4F40-923C-0FDB445C5280}.Release|x86.ActiveCfg = Release|x86
 		{655A437B-E6F9-4F40-923C-0FDB445C5280}.Release|x86.Build.0 = Release|x86
+		{ED6626D8-6BD4-4708-ACD3-291D353D7F4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED6626D8-6BD4-4708-ACD3-291D353D7F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED6626D8-6BD4-4708-ACD3-291D353D7F4B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ED6626D8-6BD4-4708-ACD3-291D353D7F4B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{ED6626D8-6BD4-4708-ACD3-291D353D7F4B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ED6626D8-6BD4-4708-ACD3-291D353D7F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED6626D8-6BD4-4708-ACD3-291D353D7F4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED6626D8-6BD4-4708-ACD3-291D353D7F4B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ED6626D8-6BD4-4708-ACD3-291D353D7F4B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{ED6626D8-6BD4-4708-ACD3-291D353D7F4B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
