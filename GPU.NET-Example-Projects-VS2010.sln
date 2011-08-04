@@ -1,13 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.BlackScholes.Console", "CSharp.BlackScholes.Console\CSharp.BlackScholes.Console.VS2010.csproj", "{5541B81A-3909-4018-803A-07760273282A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.BlackScholes.Console.VS2010", "CSharp.BlackScholes.Console\CSharp.BlackScholes.Console.VS2010.csproj", "{5541B81A-3909-4018-803A-07760273282A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.BlackScholes.WinForms", "CSharp.BlackScholes.WinForms\CSharp.BlackScholes.WinForms.VS2010.csproj", "{5806EC3D-9003-46B8-BC5C-26CF51840DF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.BlackScholes.WinForms.VS2010", "CSharp.BlackScholes.WinForms\CSharp.BlackScholes.WinForms.VS2010.csproj", "{5806EC3D-9003-46B8-BC5C-26CF51840DF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.LinearAlgebra.Library", "CSharp.LinearAlgebra.Library\CSharp.LinearAlgebra.Library.VS2010.csproj", "{FAA0452D-5BC6-49B0-AF47-72FA92266803}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.LinearAlgebra.Library.VS2010", "CSharp.LinearAlgebra.Library\CSharp.LinearAlgebra.Library.VS2010.csproj", "{FAA0452D-5BC6-49B0-AF47-72FA92266803}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.Reduction.Console", "CSharp.Reduction.Console\CSharp.Reduction.Console.VS2010.csproj", "{18F06E16-909F-41AE-BEDF-361C2CC3DE8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.Reduction.Console.VS2010", "CSharp.Reduction.Console\CSharp.Reduction.Console.VS2010.csproj", "{18F06E16-909F-41AE-BEDF-361C2CC3DE8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.MonteCarlo.Library.VS2010", "CSharp.MonteCarlo.Library\CSharp.MonteCarlo.Library.VS2010.csproj", "{5C025A5B-2E17-472B-872E-C0570C02D576}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp.MonteCarlo.Console.VS2010", "CSharp.MonteCarlo.Console\CSharp.MonteCarlo.Console.VS2010.csproj", "{655A437B-E6F9-4F40-923C-0FDB445C5280}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +63,26 @@ Global
 		{18F06E16-909F-41AE-BEDF-361C2CC3DE8A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{18F06E16-909F-41AE-BEDF-361C2CC3DE8A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{18F06E16-909F-41AE-BEDF-361C2CC3DE8A}.Release|x86.ActiveCfg = Release|Any CPU
+		{5C025A5B-2E17-472B-872E-C0570C02D576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C025A5B-2E17-472B-872E-C0570C02D576}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C025A5B-2E17-472B-872E-C0570C02D576}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5C025A5B-2E17-472B-872E-C0570C02D576}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5C025A5B-2E17-472B-872E-C0570C02D576}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5C025A5B-2E17-472B-872E-C0570C02D576}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C025A5B-2E17-472B-872E-C0570C02D576}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C025A5B-2E17-472B-872E-C0570C02D576}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5C025A5B-2E17-472B-872E-C0570C02D576}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5C025A5B-2E17-472B-872E-C0570C02D576}.Release|x86.ActiveCfg = Release|Any CPU
+		{655A437B-E6F9-4F40-923C-0FDB445C5280}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{655A437B-E6F9-4F40-923C-0FDB445C5280}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{655A437B-E6F9-4F40-923C-0FDB445C5280}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{655A437B-E6F9-4F40-923C-0FDB445C5280}.Debug|x86.ActiveCfg = Debug|x86
+		{655A437B-E6F9-4F40-923C-0FDB445C5280}.Debug|x86.Build.0 = Debug|x86
+		{655A437B-E6F9-4F40-923C-0FDB445C5280}.Release|Any CPU.ActiveCfg = Release|x86
+		{655A437B-E6F9-4F40-923C-0FDB445C5280}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{655A437B-E6F9-4F40-923C-0FDB445C5280}.Release|Mixed Platforms.Build.0 = Release|x86
+		{655A437B-E6F9-4F40-923C-0FDB445C5280}.Release|x86.ActiveCfg = Release|x86
+		{655A437B-E6F9-4F40-923C-0FDB445C5280}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
