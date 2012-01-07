@@ -38,11 +38,14 @@
     <Reference Include="TidePowerd.DeviceMethods, Version=2.1.0.0, Culture=neutral, PublicKeyToken=450c6f1107a3324d, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-	<Compile Include="AssemblyInfo.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="OptionPricing\AsianOptionPricingEngineCPU.cs" />
     <Compile Include="OptionPricing\AsianOptionSingle.cs" />
     <Compile Include="OptionPricing\AsianOptionPricingEngineKernels.cs" />
-    <Compile Include="OptionPricing\AsianOptionPricingEngine.cs" />
+    <Compile Include="OptionPricing\AsianOptionPricingEngineGPU.cs" />
+    <Compile Include="OptionPricing\IAsianOptionPricingEngine.cs" />
     <Compile Include="OptionPricing\OptionType.cs" />
+    <Compile Include="OptionPricing\RandomExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,6 @@
 ﻿/*  The MIT License
 
-Copyright (c) 2011 TidePowerd Limited (http://www.tidepowerd.com)
+Copyright (c) 2011-2012 TidePowerd Limited (http://www.tidepowerd.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,52 +26,31 @@ THE SOFTWARE.
 // More examples available at http://github.com/tidepowerd
 
 using System;
-using System.Diagnostics;
 
 namespace TidePowerd.Example.CSharp.MonteCarlo.Library.OptionPricing
 {
     /// <summary>
     /// 
     /// </summary>
-    [DebuggerDisplay("SimulationCount = {SimulationCount}, TimestepLength = {TimestepLength}")]
-    public sealed class AsianOptionPricingEngine
+    public interface IAsianOptionPricingEngine
     {
-        #region Fields
-
-        //
-        public readonly int SimulationCount;
-
-        #endregion
-
-        #region Constructors
+        #region Properties
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="simulationCount"></param>
-        public AsianOptionPricingEngine(int simulationCount)
-        {
-            // Preconditions
-            if (simulationCount < 1) { throw new ArgumentOutOfRangeException("simulationCount"); }
-
-            // Postconditions
-            //
-
-            // Set field values
-            SimulationCount = simulationCount;
-        }
-
-        #endregion
-
-        #region Properties
-
-        //
+        int SimulationCount { get; }
 
         #endregion
 
         #region Methods
 
-        //
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="option"></param>
+        /// <returns></returns>
+        float CalculatePrice(AsianOptionSingle option);
 
         #endregion
     }
