@@ -1,6 +1,6 @@
 ﻿/*  The MIT License
 
-Copyright (c) 2011 TidePowerd Limited (http://www.tidepowerd.com)
+Copyright (c) 2011-2012 TidePowerd Limited (http://www.tidepowerd.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -144,35 +144,36 @@ namespace TidePowerd.Example.CSharp.MonteCarlo.Library.OptionPricing
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="pricingEngine"></param>
+        /// <param name="simulationCount"></param>
         /// <param name="option"></param>
         /// <returns></returns>
-        public static float CalculatePrice(this AsianOptionPricingEngine pricingEngine, AsianOptionSingle option)
+        internal static float CalculatePrice(int simulationCount, AsianOptionSingle option)
         {
             // Preconditions
-            if (pricingEngine == null) { throw new ArgumentNullException("pricingEngine"); }
+            if (simulationCount < 1) { throw new ArgumentOutOfRangeException("simulationCount"); }
+            else if (option == null) { throw new ArgumentNullException("option"); }
 
             // The number of timesteps to simulate.
             int TimestepCount = (int)(option.Tenor / option.dt);
 
             // The grid size to use when executing the kernel.
-            int GridSize = (pricingEngine.SimulationCount + c_kernelBlockSize - 1) / c_kernelBlockSize;
+            int GridSize = (simulationCount + c_kernelBlockSize - 1) / c_kernelBlockSize;
 
             // Holds the path values (only used on the device, so no data is transferred to/from the host for this array).
-            float[] Paths = new float[pricingEngine.SimulationCount * TimestepCount];
+            float[] Paths = new float[simulationCount * TimestepCount];
 
             // Holds the partial prices computed on the GPU (before they're averaged into the final price).
             float[] PartialResults = new float[GridSize];
 
             // Set execution grid/block sizes.
-            Launcher.SetBlockSize(c_kernelBlockSize);            
+            Launcher.SetBlockSize(c_kernelBlockSize);
             Launcher.SetGridSize(GridSize);
 
             // Generate paths
             var r = option.RiskFreeRate;
             var sigma = option.Volatility;
             var dt = option.dt;
-            var numSims = pricingEngine.SimulationCount;
+            var numSims = simulationCount;
             GeneratePaths(Paths, r, sigma, dt, numSims, TimestepCount);
 
             // Compute option value (partial sums, final sum/average value computed on the CPU)
@@ -189,7 +190,7 @@ namespace TidePowerd.Example.CSharp.MonteCarlo.Library.OptionPricing
             }
 
             // Compute the average price of the option over the simulated time interval.
-            float MeanPrice = SumPrices / pricingEngine.SimulationCount;
+            float MeanPrice = SumPrices / simulationCount;
 
             // Discount the average price to the present time, then return the discounted value.
             return MeanPrice * (float)Math.Exp(-1.0d * option.RiskFreeRate * option.Tenor);

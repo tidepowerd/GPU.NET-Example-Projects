@@ -26,25 +26,70 @@ THE SOFTWARE.
 // More examples available at http://github.com/tidepowerd
 
 using System;
-using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
 
 namespace TidePowerd.Example.CSharp.MonteCarlo.Library.OptionPricing
 {
     /// <summary>
-    /// Denotes the type of an option.
+    /// 
     /// </summary>
-    public enum OptionType
+    [DebuggerDisplay("SimulationCount = {m_simulationCount}")]
+    public sealed class AsianOptionPricingEngineGPU : IAsianOptionPricingEngine
     {
-        /// <summary>
-        /// A put option.
-        /// </summary>
-        [Description("Put Option")]
-        Put = 0,
+        #region Fields
 
         /// <summary>
-        /// A call option.
+        /// 
         /// </summary>
-        [Description("Call Option")]
-        Call = 1
+        private readonly int m_simulationCount;
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="simulationCount"></param>
+        public AsianOptionPricingEngineGPU(int simulationCount)
+        {
+            // Preconditions
+            Contract.Requires(simulationCount > 0);
+
+            // Postconditions
+            Contract.Ensures(Contract.ValueAtReturn<int>(out m_simulationCount) > 0);
+
+            // Set field values.
+            m_simulationCount = simulationCount;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// 
+        /// </summary>
+        int IAsianOptionPricingEngine.SimulationCount
+        {
+            get { return m_simulationCount; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="option"></param>
+        /// <returns></returns>
+        float IAsianOptionPricingEngine.CalculatePrice(AsianOptionSingle option)
+        {
+            return AsianOptionPricingEngineKernels.CalculatePrice(m_simulationCount, option);
+        }
+
+        #endregion
     }
 }

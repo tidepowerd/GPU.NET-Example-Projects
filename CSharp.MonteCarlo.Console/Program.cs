@@ -44,15 +44,16 @@ namespace TidePowerd.Example.CSharp.MonteCarlo.Console
         static void Main(string[] args)
         {
             // Create an AsianOptionPricingEngine to use to compute the option values.
-            var PricingEngine = new AsianOptionPricingEngine(c_numberOfSimulations);
+            var PricingEngine = (IAsianOptionPricingEngine)new AsianOptionPricingEngineGPU(c_numberOfSimulations);
 
             // Create a single option, then compute it's price
             var OptionPrice = PricingEngine.CalculatePrice(new AsianOptionSingle(40.0f, 35.0f, 0.03f, 0.20f, 1.0f / 3.0f, OptionType.Call, 1.0f / 261));
 
             System.Console.WriteLine("Option Price: {0}", OptionPrice);
             
-            const double Tolerance = 0.1;
-            if (Math.Abs(OptionPrice - 5.162534) <= Tolerance)
+            // The maximum absolute value allowed between the known value and the simulated value.
+            const double AbsoluteTolerance = 0.1;
+            if (Math.Abs(OptionPrice - 5.162534) <= AbsoluteTolerance)
             {
                 System.Console.WriteLine("Success. The option price is within the accepted tolerance range of the known value.");
             }
