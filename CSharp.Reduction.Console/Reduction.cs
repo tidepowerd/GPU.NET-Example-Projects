@@ -104,6 +104,26 @@ namespace TidePowerd.Example.CSharp.Reduction.Console
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        private static int NextPowerOfTwo(int n)
+        {
+            // Preconditions
+            if (n < 1) { throw new ArgumentOutOfRangeException("n", "The input cannot be less than one (1)."); }
+
+            // Compute the next-greatest power of two using a bit-manipulation formula
+            int Result = n - 1;
+            Result |= Result >> 1;
+            Result |= Result >> 2;
+            Result |= Result >> 4;
+            Result |= Result >> 8;
+            Result |= Result >> 16;
+            return (Result + 1);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         public static int InterleavedModulo(int[] input)
@@ -166,14 +186,16 @@ namespace TidePowerd.Example.CSharp.Reduction.Console
         [Kernel(CustomFallbackMethod = "InterleavedModuloCustomFallback")]
         private static void InterleavedModuloKernel(int[] input, int[] output)            // reduce0
         {
-            // Get the thread index, then calculate the overall thread index (the thread index within all threads in the current execution configuration)
+            // Get the thread index, then calculate the overall thread index -- i.e.,
+            // the thread index within all threads in the current execution configuration.
             int ThreadId = ThreadIndex.X;
             int OverallThreadId = (BlockIndex.X * BlockDimension.X) + ThreadIndex.X;
 
             // Load an element from the data array into shared memory
             IntermediateResults1[ThreadId] = (OverallThreadId < input.Length) ? input[OverallThreadId] : 0;
 
-            // Sync all threads to make sure the data is actually stored in shared memory before beginning the reduction
+            // Sync all threads to make sure the data is actually stored
+            // in shared memory before beginning the reduction
             Kernel.SyncThreads();
 
             // Perform the reduction in shared memory
@@ -185,7 +207,9 @@ namespace TidePowerd.Example.CSharp.Reduction.Console
                     IntermediateResults1[ThreadId] += IntermediateResults1[ThreadId + s];
                 }
 
-                // Need to synchronize threads to ensure that the results from this step are calculated and stored back to shared memory before proceeding to the next step
+                // Need to synchronize threads to ensure that the results
+                // from this step are calculated and stored back to shared memory
+                // before proceeding to the next step.
                 Kernel.SyncThreads();
             }
 
@@ -247,14 +271,16 @@ namespace TidePowerd.Example.CSharp.Reduction.Console
         [Kernel]
         private static void InterleavedContiguousKernel(int[] input, int[] output)        // reduce1
         {
-            // Get the thread index, then calculate the overall thread index (the thread index within all threads in the current execution configuration)
+            // Get the thread index, then calculate the overall thread index -- i.e.,
+            // the thread index within all threads in the current execution configuration.
             int ThreadId = ThreadIndex.X;
             int OverallThreadId = (BlockIndex.X * BlockDimension.X) + ThreadIndex.X;
 
             // Load an element from the data array into shared memory
             IntermediateResults1[ThreadId] = (OverallThreadId < input.Length) ? input[OverallThreadId] : 0;
 
-            // Sync all threads to make sure the data is actually stored in shared memory before beginning the reduction
+            // Sync all threads to make sure the data is actually stored
+            // in shared memory before beginning the reduction
             Kernel.SyncThreads();
 
             // Perform the reduction in shared memory
@@ -269,7 +295,9 @@ namespace TidePowerd.Example.CSharp.Reduction.Console
                     IntermediateResults1[Index] += IntermediateResults1[Index + s];
                 }
 
-                // Need to synchronize threads to ensure that the results from this step are calculated and stored back to shared memory before proceeding to the next step
+                // Need to synchronize threads to ensure that the results
+                // from this step are calculated and stored back to shared memory
+                // before proceeding to the next step.
                 Kernel.SyncThreads();
             }
 
@@ -331,14 +359,16 @@ namespace TidePowerd.Example.CSharp.Reduction.Console
         [Kernel]
         private static void SequentialAddressingKernel(int[] input, int[] output)         // reduce2
         {
-            // Get the thread index, then calculate the overall thread index (the thread index within all threads in the current execution configuration)
+            // Get the thread index, then calculate the overall thread index -- i.e.,
+            // the thread index within all threads in the current execution configuration.
             int ThreadId = ThreadIndex.X;
             int OverallThreadId = (BlockIndex.X * BlockDimension.X) + ThreadIndex.X;
 
             // Load an element from the data array into shared memory
             IntermediateResults1[ThreadId] = (OverallThreadId < input.Length) ? input[OverallThreadId] : 0;
 
-            // Sync all threads to make sure the data is actually stored in shared memory before beginning the reduction
+            // Sync all threads to make sure the data is actually stored
+            // in shared memory before beginning the reduction.
             Kernel.SyncThreads();
 
             // Perform the reduction in shared memory
@@ -350,7 +380,9 @@ namespace TidePowerd.Example.CSharp.Reduction.Console
                     IntermediateResults1[ThreadId] += IntermediateResults1[ThreadId + s];
                 }
 
-                // Need to synchronize threads to ensure that the results from this step are calculated and stored back to shared memory before proceeding to the next step
+                // Need to synchronize threads to ensure that the results
+                // from this step are calculated and stored back to shared memory
+                // before proceeding to the next step.
                 Kernel.SyncThreads();
             }
 
@@ -454,11 +486,13 @@ namespace TidePowerd.Example.CSharp.Reduction.Console
         [Kernel]
         private static void FirstReductionFromGlobalKernel(int[] input, int[] output)     // reduce3
         {
-            // Get the thread index, then calculate the overall thread index (the thread index within all threads in the current execution configuration)
+            // Get the thread index, then calculate the overall thread index -- i.e.,
+            // the thread index within all threads in the current execution configuration.
             int ThreadId = ThreadIndex.X;
             int OverallThreadId = (BlockIndex.X * BlockDimension.X) + ThreadIndex.X;
 
-            // Perform the first "level" of reduction, reading in two elements from global memory, performing the reduction on them, and writing the result to shared memory
+            // Perform the first "level" of reduction, reading in two elements from global memory,
+            // performing the reduction on them, and writing the result to shared memory.
             int MySum = (OverallThreadId < input.Length) ? input[OverallThreadId] : 0;
             if (OverallThreadId + BlockDimension.X < input.Length)
             {
@@ -467,7 +501,8 @@ namespace TidePowerd.Example.CSharp.Reduction.Console
 
             IntermediateResults2[ThreadId] = MySum;
 
-            // Sync all threads to make sure the data is actually stored in shared memory before beginning the reduction
+            // Sync all threads to make sure the data is actually stored
+            // in shared memory before beginning the reduction.
             Kernel.SyncThreads();
 
             // Perform the reduction in shared memory
@@ -480,7 +515,9 @@ namespace TidePowerd.Example.CSharp.Reduction.Console
                     //IntermediateResults2[ThreadId] += IntermediateResults2[ThreadId + s];
                 }
 
-                // Need to synchronize threads to ensure that the results from this step are calculated and stored back to shared memory before proceeding to the next step
+                // Need to synchronize threads to ensure that the results
+                // from this step are calculated and stored back to shared memory
+                // before proceeding to the next step.
                 Kernel.SyncThreads();
             }
 
@@ -489,26 +526,6 @@ namespace TidePowerd.Example.CSharp.Reduction.Console
             {
                 output[BlockIndex.X] = IntermediateResults2[0];
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="n"></param>
-        /// <returns></returns>
-        private static int NextPowerOfTwo(int n)
-        {
-            // Preconditions
-            if (n < 1) { throw new ArgumentOutOfRangeException("n", "The input cannot be less than one (1)."); }
-
-            // Compute the next-greatest power of two using a bit-manipulation formula
-            int Result = n - 1;
-            Result |= Result >> 1;
-            Result |= Result >> 2;
-            Result |= Result >> 4;
-            Result |= Result >> 8;
-            Result |= Result >> 16;
-            return (Result + 1);
         }
 
         #endregion
