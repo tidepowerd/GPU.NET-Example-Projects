@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="TidePowerd.DeviceMethods, Version=2.0.0.0, Culture=neutral, PublicKeyToken=450c6f1107a3324d, processorArchitecture=MSIL" />
+    <Reference Include="TidePowerd.DeviceMethods, Version=2.3.0.0, Culture=neutral, PublicKeyToken=450c6f1107a3324d, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
 	<Compile Include="AssemblyInfo.cs" />
