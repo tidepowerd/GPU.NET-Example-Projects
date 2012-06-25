@@ -50,9 +50,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\OptionPricing.Library\OptionPricing.Library.VS2010.csproj">
       <Project>{5C025A5B-2E17-472B-872E-C0570C02D576}</Project>
       <Name>OptionPricing.Library.VS2010</Name>
