@@ -4,7 +4,7 @@ C# Example Projects for <a href="http://www.tidepowerd.com" title="Learn more ab
 Project Descriptions
 --------------------
 
-*	**[BlackScholes.Console](http://github.com/tidepowerd/GPU.NET-Example-Projects/tree/master/BlackScholes.Console/)**
+*	**[BlackScholes.Cli](http://github.com/tidepowerd/GPU.NET-Example-Projects/tree/master/BlackScholes.Cli/)**
 
 	Generates random option data, then computes the call/put option prices on the GPU using the Black-Scholes model.
 	
@@ -16,15 +16,23 @@ Project Descriptions
 
 	Demonstrates GPU-based implementations of basic vector/matrix operations.
 	
-*	**[MonteCarlo.Console](http://github.com/tidepowerd/GPU.NET-Example-Projects/tree/master/MonteCarlo.Console/)**
+*	**[OptionPricing.Cli](http://github.com/tidepowerd/GPU.NET-Example-Projects/tree/master/OptionPricing.Cli/)**
 
-	A simple console project which consumes the accelerated MonteCarlo.Library project.
+	A simple console project which consumes the accelerated OptionPricing.Library project.
 	
-*	**[MonteCarlo.Library](http://github.com/tidepowerd/GPU.NET-Example-Projects/tree/master/MonteCarlo.Library/)**
+*	**[OptionPricing.Library](http://github.com/tidepowerd/GPU.NET-Example-Projects/tree/master/OptionPricing.Library/)**
 
-	Demonstrates GPU-based Monte Carlo techniques. Includes an implementation of a Monte Carlo-based pricing engine for Asian options.
+  Demonstrates GPU-based option-valuation techniques. Includes an implemenation of a Monte Carlo-based pricing engine for Asian options.
+  
+*	**[OptionPricing.ServiceApp](http://github.com/tidepowerd/GPU.NET-Example-Projects/tree/master/OptionPricing.ServiceApp/)**
 
-*	**[Reduction.Console](http://github.com/tidepowerd/GPU.NET-Example-Projects/tree/master/Reduction.Console/)**
+  A WCF Service Application which exposes the service from the OptionPricing.ServiceLibrary project.
+  
+*	**[OptionPricing.ServiceLibrary](http://github.com/tidepowerd/GPU.NET-Example-Projects/tree/master/OptionPricing.ServiceLibrary/)**
+
+  A WCF Service Library which wraps the OptionPricing.Library project to expose it through a web service.
+
+*	**[Reduction.Cli](http://github.com/tidepowerd/GPU.NET-Example-Projects/tree/master/Reduction.Cli/)**
 
 	Demonstrates the use of the [SharedMemory] attribute by summing an array of integer values on the GPU.
 	
