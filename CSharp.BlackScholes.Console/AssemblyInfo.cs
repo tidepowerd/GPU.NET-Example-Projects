@@ -1,6 +1,6 @@
 ﻿/*  The MIT License
 
-Copyright (c) 2011 TidePowerd Limited (http://www.tidepowerd.com)
+Copyright (c) 2011-2012 TidePowerd LLC (http://www.tidepowerd.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("TidePowerd")]
 [assembly: AssemblyProduct("TidePowerd GPU.NET")]
-[assembly: AssemblyCopyright("Copyright © TidePowerd 2009-2011")]
+[assembly: AssemblyCopyright("Copyright © TidePowerd LLC 2009-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
