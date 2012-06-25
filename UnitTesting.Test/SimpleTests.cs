@@ -49,11 +49,24 @@ namespace TidePowerd.Example.UnitTesting.Test
             // Call the wrapper (which, in turn, calls the kernel we want to test).
             var Results = SimpleTestsKernels.Abs(InputData);
 
-            // Use LINQ to compare the computed results with the expected values and determine if there are any mismatches.
-            var ErrorCount =
-                ParallelEnumerable
-                .Zip(Results.AsParallel(), InputData.AsParallel().Select(x => Math.Abs(x)), (result, expected) => result != expected)
-                .Count(x => x);
+            // Compute the expected values.
+            var ExpectedResults = Array.ConvertAll(InputData, x => Math.Abs(x));
+
+            // Determine if the results calculated on the GPU match the expected results.
+            /* NOTE :   Alternatively, you can use LINQ to compare the results (or PLINQ,
+                        if your test datasets are large). However, be careful to avoid
+                        race conditions -- in some cases, LINQ/PLINQ will re-order the
+                        computation in such a way that this test will fail even when the
+                        calculated results are correct (because the calculated and expected
+                        results may not be matched pairwise, as expected). */
+            int ErrorCount = 0;
+            for (int i = 0; i < InputData.Length; i++)
+            {
+                if (Results[i] != ExpectedResults[i])
+                {
+                    ErrorCount++;
+                }
+            }
 
             // If any errors were found, the test fails.
             if (ErrorCount > 0)
