@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 */
 
-// GPU.NET Example Project : Unit Testing (C# Test Project)
+// GPU.NET Example Project : Unit Testing (C#)
 // More examples available at http://github.com/tidepowerd
 
 using System.Reflection;
@@ -30,8 +30,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Assembly info
-[assembly: AssemblyTitle("TidePowerd.Example.CSharp.UnitTesting.Test")]
-[assembly: AssemblyDescription("TidePowerd GPU.NET Example, Unit Testing (C# Test Project)")]
+[assembly: AssemblyTitle("TidePowerd.Example.UnitTesting.Test")]
+[assembly: AssemblyDescription("TidePowerd GPU.NET Example, Unit Testing (C#)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("TidePowerd")]
 [assembly: AssemblyProduct("TidePowerd GPU.NET")]

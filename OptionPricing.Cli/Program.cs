@@ -22,13 +22,13 @@ THE SOFTWARE.
 
 */
 
-// GPU.NET Example Project : Monte Carlo (C# Console)
+// GPU.NET Example Project : Option Pricing Console (C#)
 // More examples available at http://github.com/tidepowerd
 
 using System;
-using TidePowerd.Example.CSharp.MonteCarlo.Library.OptionPricing;
+using TidePowerd.Example.OptionPricing.Library.AsianOption;
 
-namespace TidePowerd.Example.CSharp.MonteCarlo.Console
+namespace TidePowerd.Example.OptionPricing.Cli
 {
     class Program
     {

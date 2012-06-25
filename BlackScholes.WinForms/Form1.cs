@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 */
 
-// GPU.NET Example Project : Black-Scholes (C# WinForms)
+// GPU.NET Example Project : Black-Scholes WinForms (C#)
 // More examples available at http://github.com/tidepowerd
 
 using System;
@@ -30,7 +30,7 @@ using System.Windows.Forms;
 
 using TidePowerd.DeviceMethods;
 
-namespace TidePowerd.Example.CSharp.BlackScholes.WinForms
+namespace TidePowerd.Example.BlackScholes.WinForms
 {
     public partial class Form1 : Form
     {

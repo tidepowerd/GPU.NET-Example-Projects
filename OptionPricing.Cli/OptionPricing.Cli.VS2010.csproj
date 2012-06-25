@@ -8,8 +8,8 @@
     <ProjectGuid>{655A437B-E6F9-4F40-923C-0FDB445C5280}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TidePowerd.Example.CSharp.MonteCarlo.Console</RootNamespace>
-    <AssemblyName>TidePowerd.Example.CSharp.MonteCarlo.Console</AssemblyName>
+    <RootNamespace>TidePowerd.Example.OptionPricing.Cli</RootNamespace>
+    <AssemblyName>TidePowerd.Example.OptionPricing.Cli</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -41,7 +41,7 @@
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MonteCarlo.Library\MonteCarlo.Library.VS2010.csproj">
+    <ProjectReference Include="..\OptionPricing.Library\OptionPricing.Library.VS2010.csproj">
       <Project>{5C025A5B-2E17-472B-872E-C0570C02D576}</Project>
       <Name>CSharp.MonteCarlo.Library.VS2010</Name>
     </ProjectReference>

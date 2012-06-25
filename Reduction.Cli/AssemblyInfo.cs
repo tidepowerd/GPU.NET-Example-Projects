@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 */
 
-// GPU.NET Example Project : Reduction (C# Console)
+// GPU.NET Example Project : Reduction (C#)
 // More examples available at http://github.com/tidepowerd
 
 using System.Reflection;
@@ -30,8 +30,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Assembly info
-[assembly: AssemblyTitle("TidePowerd.Example.CSharp.Reduction.Console")]
-[assembly: AssemblyDescription("TidePowerd GPU.NET Example, Reduction (C# Console)")]
+[assembly: AssemblyTitle("TidePowerd.Example.Reduction.Cli")]
+[assembly: AssemblyDescription("TidePowerd GPU.NET Example, Reduction (C#)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("TidePowerd")]
 [assembly: AssemblyProduct("TidePowerd GPU.NET")]

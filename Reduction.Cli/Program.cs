@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 */
 
-// GPU.NET Example Project : Reduction (C# Console)
+// GPU.NET Example Project : Reduction (C#)
 // More examples available at http://github.com/tidepowerd
 
 using System;
@@ -30,7 +30,7 @@ using System.Diagnostics;
 
 using TidePowerd.DeviceMethods;
 
-namespace TidePowerd.Example.CSharp.Reduction.Console
+namespace TidePowerd.Example.Reduction.Cli
 {
     class Program
     {

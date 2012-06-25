@@ -22,14 +22,14 @@ THE SOFTWARE.
 
 */
 
-// GPU.NET Example Project : Monte Carlo (C# Library)
+// GPU.NET Example Project : Option Pricing Library (C#)
 // More examples available at http://github.com/tidepowerd
 
 using System;
 using System.Diagnostics.Contracts;
 using System.Diagnostics;
 
-namespace TidePowerd.Example.CSharp.MonteCarlo.Library.OptionPricing
+namespace TidePowerd.Example.OptionPricing.Library.AsianOption
 {
     /// <summary>
     /// 

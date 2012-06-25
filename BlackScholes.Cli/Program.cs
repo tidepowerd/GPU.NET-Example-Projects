@@ -22,15 +22,17 @@ THE SOFTWARE.
 
 */
 
-// GPU.NET Example Project : Black-Scholes (C# Console)
+// GPU.NET Example Project : Black-Scholes Console (C#)
 // More examples available at http://github.com/tidepowerd
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
+using System.Threading;
 
 using TidePowerd.DeviceMethods;
 
-namespace TidePowerd.Example.CSharp.BlackScholes.Console
+namespace TidePowerd.Example.BlackScholes.Cli
 {
     class Program
     {
@@ -72,7 +74,7 @@ namespace TidePowerd.Example.CSharp.BlackScholes.Console
             float[] PutResultsGPU = new float[NumOptions];
 
             // Begin thread and processor affinity so we don't jump to a different core and skew our timing results
-            System.Threading.Thread.BeginThreadAffinity();
+            Thread.BeginThreadAffinity();
             // TODO: Set processor affinity mask
 
             // Create a stopwatch to measure the calculations via the system high-precision event timer (HPET).
@@ -87,30 +89,45 @@ namespace TidePowerd.Example.CSharp.BlackScholes.Console
             Console.WriteLine("Forcing initialization of the GPU.NET Runtime and Plugins...");
             
             Watch.Start();
-            BlackScholes.BlackScholesGPUSingleIteration(CallResultsGPU, PutResultsGPU, StockPrices, OptionStrikePrices, OptionYears, RiskFree, Volatility);
+            BlackScholes.BlackScholesGPUSingleIteration(
+                CallResultsGPU,
+                PutResultsGPU,
+                StockPrices,
+                OptionStrikePrices,
+                OptionYears,
+                RiskFree,
+                Volatility);
             Watch.Stop();
 
             Console.WriteLine("Initialization completed in {0:0.0000} ms.", Watch.Elapsed.TotalMilliseconds);
 #endif
             // Print message to console
-            System.Console.WriteLine("Performing GPU-based calculations...");
+            Console.WriteLine("Performing GPU-based calculations...");
 
             // Reset (if necessary) and start stopwatch to measure GPU calculation speed.
             Watch.Reset();
             Watch.Start();
 
             // Execute the kernel "NumIterations" times
-            BlackScholes.BlackScholesGPUIterative(CallResultsGPU, PutResultsGPU, StockPrices, OptionStrikePrices, OptionYears, RiskFree, Volatility, NumGPUIterations);
+            BlackScholes.BlackScholesGPUIterative(
+                CallResultsGPU,
+                PutResultsGPU,
+                StockPrices,
+                OptionStrikePrices,
+                OptionYears,
+                RiskFree,
+                Volatility,
+                NumGPUIterations);
 
             // Stop the stopwatch and print GPU timing results
             Watch.Stop();
             double ElapsedMillisecondsPerGPUIteration = Watch.Elapsed.TotalMilliseconds / (double)NumGPUIterations;
-            System.Console.WriteLine("Completed {0} iterations in {1:0.0000} ms.", NumGPUIterations, Watch.Elapsed.TotalMilliseconds);
-            System.Console.WriteLine("Average time per iteration: {0:0.0000} ms.", ElapsedMillisecondsPerGPUIteration);
-            System.Console.WriteLine();
+            Console.WriteLine("Completed {0} iterations in {1:0.0000} ms.", NumGPUIterations, Watch.Elapsed.TotalMilliseconds);
+            Console.WriteLine("Average time per iteration: {0:0.0000} ms.", ElapsedMillisecondsPerGPUIteration);
+            Console.WriteLine();
 
             // Print message to console
-            System.Console.WriteLine("Performing CPU-based calculations on {0} core(s)...", System.Environment.ProcessorCount);
+            Console.WriteLine("Performing CPU-based calculations on {0} core(s)...", Environment.ProcessorCount);
 
             // Restart the stopwatch
             Watch.Reset();
@@ -119,54 +136,64 @@ namespace TidePowerd.Example.CSharp.BlackScholes.Console
             // Perform CPU-based calculations
             for (int Iteration = 0; Iteration < NumCPUIterations; Iteration++)
             {
-                BlackScholes.BlackScholesCPU(CallResultsCPU, PutResultsCPU, StockPrices, OptionStrikePrices, OptionYears, RiskFree, Volatility);
+                BlackScholes.BlackScholesCPU(
+                    CallResultsCPU,
+                    PutResultsCPU,
+                    StockPrices,
+                    OptionStrikePrices,
+                    OptionYears,
+                    RiskFree,
+                    Volatility);
             }
 
             // Stop the stopwatch and print CPU timing results
             Watch.Stop();
             double ElapsedMillisecondsPerCPUIteration = Watch.Elapsed.TotalMilliseconds / (double)NumCPUIterations;
-            System.Console.WriteLine("Completed {0} iterations in {1:0.0000} ms.", NumCPUIterations, Watch.Elapsed.TotalMilliseconds);
-            System.Console.WriteLine("Average time per iteration: {0:0.0000} ms.", ElapsedMillisecondsPerCPUIteration);
-            System.Console.WriteLine();
+            Console.WriteLine("Completed {0} iterations in {1:0.0000} ms.", NumCPUIterations, Watch.Elapsed.TotalMilliseconds);
+            Console.WriteLine("Average time per iteration: {0:0.0000} ms.", ElapsedMillisecondsPerCPUIteration);
+            Console.WriteLine();
 
             // End thread affinity now that we've finished using Stopwatch          
             System.Threading.Thread.EndThreadAffinity();
 
             // Print performance comparison data
-            System.Console.WriteLine("Option Count (Call/Put Pairs): {0}", NumOptions);
-            double GibibytesTransferred = (5.0d * (double)NumOptions * (double)sizeof(float)) / Math.Pow(2.0d, 30.0d);  // GiB transferred (per round-trip)
-            System.Console.WriteLine("Effective Host<->Device Memory Bandwidth (avg): {0:0.0000} GiB/s", GibibytesTransferred / (ElapsedMillisecondsPerGPUIteration / 1000.0d));  // GiB transferred (round trip) per iteration / seconds per iteration
-            System.Console.WriteLine("GPU Speedup vs. CPU: ~{0:0.0000}x", ElapsedMillisecondsPerCPUIteration / ElapsedMillisecondsPerGPUIteration);
-            System.Console.WriteLine();
+            Console.WriteLine("Option Count (Call/Put Pairs): {0}", NumOptions);
+            // GiB transferred (per round-trip)
+            double GibibytesTransferred = (5.0d * (double)NumOptions * (double)sizeof(float)) / Math.Pow(2.0d, 30.0d);
+            // GiB transferred (round trip) per iteration / seconds per iteration
+            Console.WriteLine("Effective Host<->Device Memory Bandwidth (avg): {0:0.0000} GiB/s",
+                GibibytesTransferred / (ElapsedMillisecondsPerGPUIteration / 1000.0d));
+            Console.WriteLine("GPU Speedup vs. CPU: ~{0:0.0000}x", ElapsedMillisecondsPerCPUIteration / ElapsedMillisecondsPerGPUIteration);
+            Console.WriteLine();
 
             // Print message to console
-            System.Console.WriteLine("Verifying calculations...");
+            Console.WriteLine("Verifying calculations...");
 
             // Verify that GPU & CPU calculations match (their difference should be within a certain threshold)
             double OneNorm = 0d, TwoNorm = 0d, MaxNorm = 0d;
 
             // Call option verification
-            System.Console.WriteLine("Call Option Price Data:");
+            Console.WriteLine("Call Option Price Data:");
             NormsOfDifferenceVector(CallResultsCPU, CallResultsGPU, out OneNorm, out TwoNorm, out MaxNorm);
 
-            System.Console.WriteLine("L1-Norm: {0}", OneNorm);
-            System.Console.WriteLine("L2-Norm: {0}", TwoNorm);
-            System.Console.WriteLine("Max-Norm: {0}", MaxNorm);
+            Console.WriteLine("L1-Norm: {0}", OneNorm);
+            Console.WriteLine("L2-Norm: {0}", TwoNorm);
+            Console.WriteLine("Max-Norm: {0}", MaxNorm);
 
             // Put option verification
-            System.Console.WriteLine("Put Option Price Data:");
+            Console.WriteLine("Put Option Price Data:");
             NormsOfDifferenceVector(PutResultsCPU, PutResultsGPU, out OneNorm, out TwoNorm, out MaxNorm);
 
-            System.Console.WriteLine("L1 Norm: {0}", OneNorm);
-            System.Console.WriteLine("L2-Norm: {0}", TwoNorm);
-            System.Console.WriteLine("Max-Norm: {0}", MaxNorm);
+            Console.WriteLine("L1 Norm: {0}", OneNorm);
+            Console.WriteLine("L2-Norm: {0}", TwoNorm);
+            Console.WriteLine("Max-Norm: {0}", MaxNorm);
 
             //// If the max-norm is less than a reasonable threshold, verification has passed
             // TODO : Determine what a reasonable error threshold is (based on the number of options).
 
             // Wait to exit
-            System.Console.WriteLine();
-            System.Console.WriteLine("Press any key to exit...");
+            Console.WriteLine();
+            Console.WriteLine("Press any key to exit...");
             ConsoleKeyInfo cki = System.Console.ReadKey();
         }
 
@@ -181,13 +208,14 @@ namespace TidePowerd.Example.CSharp.BlackScholes.Console
         private static void NormsOfDifferenceVector(float[] reference, float[] results, out double oneNorm, out double twoNorm, out double maxNorm)
         {
             // Preconditions
-            if (reference == null) { throw new ArgumentNullException("reference"); }
-            else if (results == null) { throw new ArgumentNullException("results"); }
-            else if (reference.Length != results.Length) { throw new ArgumentException("The result vector does not have the same length as the reference vector.", "results"); }
+            Contract.Requires(reference != null);
+            Contract.Requires(results != null);
+            Contract.Requires(reference.Length == results.Length,
+                "The result vector does not have the same length as the reference vector.");
 
             // Postconditions
-            // TODO: twoNorm >= 0
-            // TODO: maxNorm >= 0
+            Contract.Ensures(Contract.ValueAtReturn<double>(out twoNorm) >= 0);
+            Contract.Ensures(Contract.ValueAtReturn<double>(out maxNorm) >= 0);
 
             // Holds the running sum of the difference vector's elements (for the L1-norm)
             double SumOfAbsoluteDifferences = 0d;
@@ -225,6 +253,15 @@ namespace TidePowerd.Example.CSharp.BlackScholes.Console
         /// <returns></returns>
         private static float RandFloat(Random rand, float low, float high)
         {
+            // Preconditions
+            Contract.Requires(rand != null);
+            Contract.Requires(low < high,
+                "The low value of the range is greater than the high value of the range.");
+
+            // Postconditions
+            Contract.Ensures(Contract.Result<float>() >= low);
+            Contract.Ensures(Contract.Result<float>() <= high);
+
             float t = (float)rand.NextDouble();
             return (1.0f - t) * low + t * high;
         }

@@ -29,7 +29,7 @@ using System;
 using System.Threading.Tasks;
 using TidePowerd.DeviceMethods;
 
-namespace TidePowerd.Example.CSharp.LinearAlgebra.Library
+namespace TidePowerd.Example.LinearAlgebra.Library
 {
     /// <summary>
     /// Provides methods for performing basic vector operations.

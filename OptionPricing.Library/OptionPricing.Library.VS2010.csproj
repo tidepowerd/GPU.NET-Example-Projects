@@ -8,8 +8,8 @@
     <ProjectGuid>{5C025A5B-2E17-472B-872E-C0570C02D576}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TidePowerd.Example.CSharp.MonteCarlo.Library</RootNamespace>
-    <AssemblyName>TidePowerd.Example.CSharp.MonteCarlo.Library</AssemblyName>
+    <RootNamespace>TidePowerd.Example.OptionPricing.Library</RootNamespace>
+    <AssemblyName>TidePowerd.Example.OptionPricing.Library</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -39,13 +39,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="OptionPricing\AsianOptionPricingEngineCPU.cs" />
-    <Compile Include="OptionPricing\AsianOptionSingle.cs" />
-    <Compile Include="OptionPricing\AsianOptionPricingEngineKernels.cs" />
-    <Compile Include="OptionPricing\AsianOptionPricingEngineGPU.cs" />
-    <Compile Include="OptionPricing\IAsianOptionPricingEngine.cs" />
-    <Compile Include="OptionPricing\OptionType.cs" />
-    <Compile Include="OptionPricing\RandomExtensions.cs" />
+    <Compile Include="AsianOption\AsianOptionPricingEngineCPU.cs" />
+    <Compile Include="AsianOption\AsianOptionSingle.cs" />
+    <Compile Include="AsianOption\AsianOptionPricingEngineKernels.cs" />
+    <Compile Include="AsianOption\AsianOptionPricingEngineGPU.cs" />
+    <Compile Include="AsianOption\IAsianOptionPricingEngine.cs" />
+    <Compile Include="AsianOption\OptionType.cs" />
+    <Compile Include="AsianOption\RandomExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

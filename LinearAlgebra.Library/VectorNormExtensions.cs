@@ -29,7 +29,7 @@ using System;
 using System.Threading.Tasks;
 using TidePowerd.DeviceMethods;
 
-namespace TidePowerd.Example.CSharp.LinearAlgebra.Library
+namespace TidePowerd.Example.LinearAlgebra.Library
 {
     /// <summary>
     /// Provides extension methods for computing vector norms.

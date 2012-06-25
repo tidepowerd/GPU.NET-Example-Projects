@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 */
 
-// GPU.NET Example Project : Black-Scholes (C# Console)
+// GPU.NET Example Project : Black-Scholes Console (C#)
 // More examples available at http://github.com/tidepowerd
 
 using System.Reflection;
@@ -30,8 +30,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Assembly info
-[assembly: AssemblyTitle("TidePowerd.Example.CSharp.BlackScholes.Console")]
-[assembly: AssemblyDescription("TidePowerd GPU.NET Example, Black-Scholes (C# Console)")]
+[assembly: AssemblyTitle("TidePowerd.Example.BlackScholes.Cli")]
+[assembly: AssemblyDescription("TidePowerd GPU.NET Example, Black-Scholes (C#)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("TidePowerd")]
 [assembly: AssemblyProduct("TidePowerd GPU.NET")]

@@ -29,7 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace TidePowerd.Example.CSharp.BlackScholes.WinForms
+namespace TidePowerd.Example.BlackScholes.WinForms
 {
     static class Program
     {

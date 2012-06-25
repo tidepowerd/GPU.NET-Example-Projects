@@ -22,14 +22,14 @@ THE SOFTWARE.
 
 */
 
-// GPU.NET Example Project : Black-Scholes (C# Console)
+// GPU.NET Example Project : Black-Scholes WinForms (C#)
 // More examples available at http://github.com/tidepowerd
 
 using System;
 using System.Threading.Tasks;
 using TidePowerd.DeviceMethods;
 
-namespace TidePowerd.Example.CSharp.BlackScholes.WinForms
+namespace TidePowerd.Example.BlackScholes.WinForms
 {
     /// <summary>
     /// Contains method to calculate option prices via the Black-Scholes formula.

@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 */
 
-// GPU.NET Example Project : Black-Scholes (C# WinForms)
+// GPU.NET Example Project : Black-Scholes WinForms (C#)
 // More examples available at http://github.com/tidepowerd
 
 using System.Reflection;
@@ -30,8 +30,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Assembly info
-[assembly: AssemblyTitle("TidePowerd.Example.CSharp.BlackScholes.WinForms")]
-[assembly: AssemblyDescription("TidePowerd GPU.NET Example, Black-Scholes (C# WinForms)")]
+[assembly: AssemblyTitle("TidePowerd.Example.BlackScholes.WinForms")]
+[assembly: AssemblyDescription("TidePowerd GPU.NET Example, Black-Scholes (C#)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("TidePowerd")]
 [assembly: AssemblyProduct("TidePowerd GPU.NET")]

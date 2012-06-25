@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 */
 
-// GPU.NET Example Project : Monte Carlo (C# Library)
+// GPU.NET Example Project : Option Pricing Library (C#)
 // More examples available at http://github.com/tidepowerd
 
 using System.Reflection;
@@ -30,8 +30,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Assembly info
-[assembly: AssemblyTitle("TidePowerd.Example.CSharp.MonteCarlo.Library")]
-[assembly: AssemblyDescription("TidePowerd GPU.NET Example, Monte Carlo (C# Library)")]
+[assembly: AssemblyTitle("TidePowerd.Example.OptionPricing.Library")]
+[assembly: AssemblyDescription("TidePowerd GPU.NET Example, Option Pricing (C#)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("TidePowerd")]
 [assembly: AssemblyProduct("TidePowerd GPU.NET")]

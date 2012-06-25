@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 */
 
-// GPU.NET Example Project : Unit Testing (C# Test Project)
+// GPU.NET Example Project : Unit Testing (C#)
 // More examples available at http://github.com/tidepowerd
 
 using System;
@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace TidePowerd.Example.CSharp.UnitTesting.Test
+namespace TidePowerd.Example.UnitTesting.Test
 {
     /// <summary>
     /// 

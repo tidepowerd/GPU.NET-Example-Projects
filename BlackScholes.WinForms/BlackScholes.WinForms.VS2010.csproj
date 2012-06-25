@@ -8,8 +8,8 @@
     <ProjectGuid>{5806EC3D-9003-46B8-BC5C-26CF51840DF8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TidePowerd.Example.CSharp.BlackScholes.WinForms</RootNamespace>
-    <AssemblyName>TidePowerd.Example.CSharp.BlackScholes.WinForms</AssemblyName>
+    <RootNamespace>TidePowerd.Example.BlackScholes.WinForms</RootNamespace>
+    <AssemblyName>TidePowerd.Example.BlackScholes.WinForms</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

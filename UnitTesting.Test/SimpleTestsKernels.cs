@@ -28,7 +28,7 @@ THE SOFTWARE.
 using System;
 using TidePowerd.DeviceMethods;
 
-namespace TidePowerd.Example.CSharp.UnitTesting.Test
+namespace TidePowerd.Example.UnitTesting.Test
 {
     /// <summary>
     /// 

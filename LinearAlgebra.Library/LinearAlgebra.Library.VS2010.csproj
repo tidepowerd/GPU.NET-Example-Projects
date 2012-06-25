@@ -8,8 +8,8 @@
     <ProjectGuid>{FAA0452D-5BC6-49B0-AF47-72FA92266803}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TidePowerd.Example.CSharp.LinearAlgebra.Library</RootNamespace>
-    <AssemblyName>TidePowerd.Example.CSharp.LinearAlgebra.Library</AssemblyName>
+    <RootNamespace>TidePowerd.Example.LinearAlgebra.Library</RootNamespace>
+    <AssemblyName>TidePowerd.Example.LinearAlgebra.Library</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

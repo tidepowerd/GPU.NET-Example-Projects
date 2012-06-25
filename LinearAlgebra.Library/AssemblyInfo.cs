@@ -32,7 +32,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TidePowerd.Example.CSharp.LinearAlgebra.Library")]
+[assembly: AssemblyTitle("TidePowerd.Example.LinearAlgebra.Library")]
 [assembly: AssemblyDescription("TidePowerd GPU.NET Example, Linear Algebra (C#)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("TidePowerd")]
