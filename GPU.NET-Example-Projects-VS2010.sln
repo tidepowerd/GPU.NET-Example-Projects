@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackScholes.Console.VS2010", "BlackScholes.Console\BlackScholes.Console.VS2010.csproj", "{5541B81A-3909-4018-803A-07760273282A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackScholes.Cli.VS2010", "BlackScholes.Cli\BlackScholes.Cli.VS2010.csproj", "{5541B81A-3909-4018-803A-07760273282A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackScholes.WinForms.VS2010", "BlackScholes.WinForms\BlackScholes.WinForms.VS2010.csproj", "{5806EC3D-9003-46B8-BC5C-26CF51840DF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinearAlgebra.Library.VS2010", "LinearAlgebra.Library\LinearAlgebra.Library.VS2010.csproj", "{FAA0452D-5BC6-49B0-AF47-72FA92266803}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reduction.Console.VS2010", "Reduction.Console\Reduction.Console.VS2010.csproj", "{18F06E16-909F-41AE-BEDF-361C2CC3DE8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reduction.Cli.VS2010", "Reduction.Cli\Reduction.Cli.VS2010.csproj", "{18F06E16-909F-41AE-BEDF-361C2CC3DE8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonteCarlo.Library.VS2010", "MonteCarlo.Library\MonteCarlo.Library.VS2010.csproj", "{5C025A5B-2E17-472B-872E-C0570C02D576}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OptionPricing.Library.VS2010", "OptionPricing.Library\OptionPricing.Library.VS2010.csproj", "{5C025A5B-2E17-472B-872E-C0570C02D576}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonteCarlo.Console.VS2010", "MonteCarlo.Console\MonteCarlo.Console.VS2010.csproj", "{655A437B-E6F9-4F40-923C-0FDB445C5280}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OptionPricing.Cli.VS2010", "OptionPricing.Cli\OptionPricing.Cli.VS2010.csproj", "{655A437B-E6F9-4F40-923C-0FDB445C5280}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting.Test.VS2010", "UnitTesting.Test\UnitTesting.Test.VS2010.csproj", "{ED6626D8-6BD4-4708-ACD3-291D353D7F4B}"
 EndProject
